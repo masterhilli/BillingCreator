@@ -1,4 +1,4 @@
-package auth;
+package google.api.auth;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -12,7 +12,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import sun.font.Script;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +66,7 @@ public class AuthorizeService {
     private static Credential authorize(java.util.Collection<String> driveScopes) throws IOException {
         // Load client secrets.
         InputStream in =
-                AuthorizeService.class.getResourceAsStream("/auth/client_secret.json");
+                AuthorizeService.class.getResourceAsStream("/google/api/auth/client_secret.json");
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

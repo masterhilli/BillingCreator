@@ -1,12 +1,12 @@
+package google.api.spreadsheet;
 
-import com.google.api.client.auth.oauth2.Credential;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;
 import com.google.gdata.data.spreadsheet.*;
 import com.google.gdata.util.ServiceException;
+import google.api.auth.AuthorizeService;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -85,7 +85,7 @@ public class SheetsQuickStart {
 
     private static void CreateServiceForGoogleSpreadsheets() throws IOException {
         service = new SpreadsheetService("MySpreadsheetIntegration-v1");
-        service.setOAuth2Credentials(auth.AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"))); //does not find that method????
+        service.setOAuth2Credentials(AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"))); //does not find that method????
     }
     private static void CreateSpreadsheetFeed() throws IOException, ServiceException{
         SPREADSHEET_FEED_URL = new URL(
@@ -131,6 +131,7 @@ public class SheetsQuickStart {
         }
     }
     private static SpreadsheetEntry FindSpreadsheetForTesting()  {
+
          if (spreadsheet == null) {
              for (SpreadsheetEntry spreadsheetEntry : feed.getEntries()) {
                  if (spreadsheetEntry.getTitle().getPlainText().compareToIgnoreCase("Tabelle TESTGOOGLEAPI") == 0) {

@@ -1,4 +1,5 @@
-import com.google.api.services.drive.DriveScopes;
+package google.api.drive;
+
 import com.google.api.services.drive.model.*;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -6,7 +7,7 @@ import com.google.api.services.drive.model.File;
 import java.io.*;
 import java.util.List;
 
-import auth.AuthorizeService;
+import google.api.auth.AuthorizeService;
 
 public class DriveQuickstart {
 
