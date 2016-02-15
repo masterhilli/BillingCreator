@@ -3,6 +3,7 @@ package work.billing.Spreadsheets;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
 import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
+import com.google.gdata.data.spreadsheet.WorksheetFeed;
 import com.google.gdata.util.ServiceException;
 import google.api.auth.AuthorizeService;
 
@@ -18,38 +19,21 @@ import java.util.stream.Stream;
  */
 public class Spreadsheet {
     private SpreadsheetEntry googleSpreadSheet = null;
+    private SpreadsheetService service = null;
+    private URL SPREADSHEET_FEED_URL = null;
 
     public Spreadsheet(String googleDriveId) {
         ConnectToSpreadsheetEntry(googleDriveId);
     }
 
     private void ConnectToSpreadsheetEntry(String googleDriveId) {
-        SpreadsheetService service = new SpreadsheetService("MySpreadsheetIntegration-v1");
-        try {
-            service.setOAuth2Credentials(AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"))); //does not find that method????
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SpreadsheetService service = getSpreadsheetService();
 
-        URL SPREADSHEET_FEED_URL = null;
-        try {
-            SPREADSHEET_FEED_URL = new URL(
-                    //"https://spreadsheets.google.com/feeds/spreadsheets/private/full");
-                    "https://spreadsheets.google.com/feeds/worksheets/1MBc1Uvv4Wfyw31mwoGnrEzfCaXxcd1BT-aLg0x1VS_Y/private/full");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL SPREADSHEET_FEED_URL = getUrlToSpreadSheet(googleDriveId);
+        System.out.println("URL: " + SPREADSHEET_FEED_URL.toString());
 
         // Make a request to the API and get all spreadsheets.
-        SpreadsheetFeed feed = null;
-        try {
-             feed = service.getFeed(SPREADSHEET_FEED_URL,
-                    SpreadsheetFeed.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        SpreadsheetFeed feed = getSpreadsheetFeed(service, SPREADSHEET_FEED_URL);
 
         List<SpreadsheetEntry> entries = feed.getEntries();
 
@@ -71,6 +55,41 @@ public class Spreadsheet {
         for (SpreadsheetEntry listEntry : entries) {
             System.out.printf("FOUND spreadsheet title: %s\tKey: %s\n", listEntry.getTitle().getPlainText(), listEntry.getKey());
         }
+    }
+
+    private SpreadsheetFeed getSpreadsheetFeed(SpreadsheetService service, URL SPREADSHEET_FEED_URL) {
+        SpreadsheetFeed feed = null;
+        try {
+             feed = service.getFeed(SPREADSHEET_FEED_URL, //WorksheetFeed.class);
+                    SpreadsheetFeed.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return feed;
+    }
+
+    private URL getUrlToSpreadSheet(String googleDriveId) {
+        URL SPREADSHEET_FEED_URL = null;
+        try {
+            SPREADSHEET_FEED_URL = new URL(
+                    "https://spreadsheets.google.com/feeds/spreadsheets/private/full");
+            //"https://spreadsheets.google.com/feeds/worksheets/"+googleDriveId+"/private/full");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return SPREADSHEET_FEED_URL;
+    }
+
+    private SpreadsheetService getSpreadsheetService() {
+        SpreadsheetService service = new SpreadsheetService("MySpreadsheetIntegration-v1");
+        try {
+            service.setOAuth2Credentials(AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"))); //does not find that method????
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return service;
     }
 
     public boolean IsConnectedToSpreadsheet() {

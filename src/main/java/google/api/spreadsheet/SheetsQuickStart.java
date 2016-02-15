@@ -1,5 +1,7 @@
 package google.api.spreadsheet;
 
+import com.google.gdata.client.Query;
+import com.google.gdata.client.spreadsheet.SpreadsheetQuery;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;
 import com.google.gdata.data.spreadsheet.*;
@@ -41,6 +43,8 @@ public class SheetsQuickStart {
         //AddWorksheetToTestSpreadsheet();
         //ModifyWorksheetFromTestSpreadsheet();
         //RemoveWorksheetFromTestSpreadsheet();
+
+
         try {
             RetrieveListBasedWorksheetFeed();
         } catch (IOException e) {
@@ -96,6 +100,13 @@ public class SheetsQuickStart {
                 SpreadsheetFeed.class);
         spreadsheets = feed.getEntries();
     }
+
+    /*
+    private static void SelectSheetThrougQuery( ) {
+        Query query;
+        query = new SpreadsheetQuery();
+    }*/
+
     private static void FindAllSpreadsheetsInGoogleDrive() {
         System.out.println("*****************FindAllSpreadsheetsInGoogleDrive*******************");
         // Iterate through all of the spreadsheets returned
