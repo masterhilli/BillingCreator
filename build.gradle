@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'GoogleApiQuickstartGuide'
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 8
+targetCompatibility = 8
 version = '1.0'
 
 repositories {
@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    //compile 'com.google.api-client:google-api-client:1.20.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
     compile 'com.google.api.client:google-api-client:1.4.1-beta'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
     compile 'com.google.apis:google-api-services-drive:v3-rev6-1.20.0'
@@ -22,11 +22,5 @@ dependencies {
     compile 'com.google.gdata.gdata-java-client:gdata-client-meta-1.0:1.47.1'
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-3.0:1.47.1'
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-meta-3.0:1.47.1'
-   // compile 'com.google.apis:google-api-services-script:v1-rev1-1.20.0'
-    //runtime files ('libs/gdata-spreadsheet-1.0.jar', 'libs/gdata-client-1.0.jar')
+
 }
-/*
-dependencies {
-    runtime files('libs/mnist-tools.jar', 'libs/gson-2.2.4.jar')
-    runtime fileTree(dir: 'libs', include: '*.jar')
-}*/
