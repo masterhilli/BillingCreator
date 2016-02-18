@@ -6,6 +6,8 @@ import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;
 import com.google.gdata.data.spreadsheet.*;
 import com.google.gdata.util.ServiceException;
+import google.api.GoogleServiceConnector;
+import google.api.GoogleSpreadSheetFeed;
 import google.api.auth.AuthorizeService;
 
 import java.io.IOException;
@@ -17,7 +19,6 @@ import java.util.List;
 
 public class SheetsQuickStart {
 
-    private static SpreadsheetService service;
     private static URL SPREADSHEET_FEED_URL;
 
     // Make a request to the API and get all spreadsheets.
@@ -26,7 +27,7 @@ public class SheetsQuickStart {
     private static SpreadsheetEntry spreadsheet = null;
     public static void run(String[] args) {
         try {
-            CreateServiceForGoogleSpreadsheets();
+            GoogleServiceConnector.GetSpreadSheetService();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,20 +86,8 @@ public class SheetsQuickStart {
         }
     }
 
-
-
-    private static void CreateServiceForGoogleSpreadsheets() throws IOException {
-        service = new SpreadsheetService("MySpreadsheetIntegration-v1");
-        service.setOAuth2Credentials(AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"))); //does not find that method????
-    }
     private static void CreateSpreadsheetFeed() throws IOException, ServiceException{
-        SPREADSHEET_FEED_URL = new URL(
-                "https://spreadsheets.google.com/feeds/spreadsheets/private/full");
-
-        // Make a request to the API and get all spreadsheets.
-        feed = service.getFeed(SPREADSHEET_FEED_URL,
-                SpreadsheetFeed.class);
-        spreadsheets = feed.getEntries();
+        spreadsheets =  GoogleSpreadSheetFeed.GetFeedOfAllSpreadsheetsInService().getEntries();
     }
 
     /*
@@ -171,14 +160,14 @@ public class SheetsQuickStart {
         // creation.  The URL to use here is the worksheet feed URL of our
         // spreadsheet.
         URL worksheetFeedUrl = spreadsheet.getWorksheetFeedUrl();
-        service.insert(worksheetFeedUrl, worksheet);
+        GoogleServiceConnector.GetSpreadSheetService().insert(worksheetFeedUrl, worksheet);
     }
     private static void RemoveWorksheetFromTestSpreadsheet() throws IOException, ServiceException {
         SpreadsheetEntry spreadsheet = FindSpreadsheetForTesting();
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
@@ -191,7 +180,7 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
@@ -210,14 +199,14 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the list feed of the worksheet.
         URL listFeedUrl = worksheet.getListFeedUrl();
-        ListFeed listFeed = service.getFeed(listFeedUrl, ListFeed.class);
+        ListFeed listFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(listFeedUrl, ListFeed.class);
 
         // Iterate through each row, printing its cell values.
         for (ListEntry row : listFeed.getEntries()) {
@@ -235,14 +224,14 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the list feed of the worksheet.
         URL listFeedUrl = worksheet.getListFeedUrl();
-        ListFeed listFeed = service.getFeed(listFeedUrl, ListFeed.class);
+        ListFeed listFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(listFeedUrl, ListFeed.class);
 
         // Create a local representation of the new row.
         ListEntry row = new ListEntry();
@@ -252,21 +241,21 @@ public class SheetsQuickStart {
         row.getCustomElements().setValueLocal("height", "176");
 
         // Send the new row to the API for insertion.
-        row = service.insert(listFeedUrl, row);  // this one is throwing an exception!
+        row = GoogleServiceConnector.GetSpreadSheetService().insert(listFeedUrl, row);  // this one is throwing an exception!
     }
     private static void UpdateARow() throws IOException, ServiceException {
         spreadsheet = FindSpreadsheetForTesting();
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the list feed of the worksheet.
         URL listFeedUrl = worksheet.getListFeedUrl();
-        ListFeed listFeed = service.getFeed(listFeedUrl, ListFeed.class);
+        ListFeed listFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(listFeedUrl, ListFeed.class);
 
         // TODO: Choose a row more intelligently based on your app's needs.
         ListEntry row = listFeed.getEntries().get(0);
@@ -284,14 +273,14 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the list feed of the worksheet.
         URL listFeedUrl = worksheet.getListFeedUrl();
-        ListFeed listFeed = service.getFeed(listFeedUrl, ListFeed.class);
+        ListFeed listFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(listFeedUrl, ListFeed.class);
 
         // TODO: Choose a row more intelligently based on your app's needs.
         ListEntry row = listFeed.getEntries().get(0);
@@ -303,14 +292,14 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the cell feed of the worksheet.
         URL cellFeedUrl = worksheet.getCellFeedUrl();
-        CellFeed cellFeed = service.getFeed(cellFeedUrl, CellFeed.class);
+        CellFeed cellFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(cellFeedUrl, CellFeed.class);
 
         // Iterate through each cell, printing its value.
         for (CellEntry cell : cellFeed.getEntries()) {
@@ -331,7 +320,7 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
@@ -339,7 +328,7 @@ public class SheetsQuickStart {
         // Fetch column 4, and every row after row 1.
         URL cellFeedUrl = new URI(worksheet.getCellFeedUrl().toString()
                 + "?min-row=2&min-col=4&max-col=4").toURL();
-        CellFeed cellFeed = service.getFeed(cellFeedUrl, CellFeed.class);
+        CellFeed cellFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(cellFeedUrl, CellFeed.class);
 
         // Iterate through each cell, printing its value.
         for (CellEntry cell : cellFeed.getEntries()) {
@@ -361,14 +350,14 @@ public class SheetsQuickStart {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
         // app's needs.
-        WorksheetFeed worksheetFeed = service.getFeed(
+        WorksheetFeed worksheetFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(
                 spreadsheet.getWorksheetFeedUrl(), WorksheetFeed.class);
         List<WorksheetEntry> worksheets = worksheetFeed.getEntries();
         WorksheetEntry worksheet = worksheets.get(0);
 
         // Fetch the cell feed of the worksheet.
         URL cellFeedUrl = worksheet.getCellFeedUrl();
-        CellFeed cellFeed = service.getFeed(cellFeedUrl, CellFeed.class);
+        CellFeed cellFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(cellFeedUrl, CellFeed.class);
 
         // Iterate through each cell, updating its value if necessary.
         // TODO: Update cell values more intelligently.
