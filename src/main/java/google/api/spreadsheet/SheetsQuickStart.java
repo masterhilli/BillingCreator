@@ -38,7 +38,7 @@ public class SheetsQuickStart {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        //FindAllSpreadsheetsInGoogleDrive();
+        FindAllSpreadsheetsInGoogleDrive();
         //RetrieveAdditionalInformationAboutSpreadsheets();
         FindSpreadsheetForTesting();
         //AddWorksheetToTestSpreadsheet();
@@ -46,6 +46,7 @@ public class SheetsQuickStart {
         //RemoveWorksheetFromTestSpreadsheet();
 
 
+        /*
         try {
             RetrieveListBasedWorksheetFeed();
         } catch (IOException e) {
@@ -83,25 +84,19 @@ public class SheetsQuickStart {
             e.printStackTrace();
         } catch (ServiceException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private static void CreateSpreadsheetFeed() throws IOException, ServiceException{
         spreadsheets =  GoogleSpreadSheetFeed.GetFeedOfAllSpreadsheetsInService().getEntries();
     }
 
-    /*
-    private static void SelectSheetThrougQuery( ) {
-        Query query;
-        query = new SpreadsheetQuery();
-    }*/
-
     private static void FindAllSpreadsheetsInGoogleDrive() {
         System.out.println("*****************FindAllSpreadsheetsInGoogleDrive*******************");
         // Iterate through all of the spreadsheets returned
         for (SpreadsheetEntry spreadsheet : spreadsheets) {
             //Print the title of this spreadsheet to the screen
-            System.out.println(spreadsheet.getKey());
+            System.out.printf("**** Title: %s (%s)\n", spreadsheet.getTitle().getPlainText(), spreadsheet.getKey());
         }
     }
     private static void RetrieveAdditionalInformationAboutSpreadsheets() throws IOException, ServiceException {
@@ -133,11 +128,11 @@ public class SheetsQuickStart {
     private static SpreadsheetEntry FindSpreadsheetForTesting()  {
 
          if (spreadsheet == null) {
-             for (SpreadsheetEntry spreadsheetEntry : feed.getEntries()) {
+             for (SpreadsheetEntry spreadsheetEntry : spreadsheets) {
                  if (spreadsheetEntry.getTitle().getPlainText().compareToIgnoreCase("Tabelle TESTGOOGLEAPI") == 0) {
                      spreadsheet = spreadsheetEntry;
                  }
-                 //System.out.println("*** " + spreadSheet.getTitle().getPlainText());
+                 System.out.println("*** " + spreadsheetEntry.getTitle().getPlainText());
              }
 
              if (spreadsheet != null) {
@@ -345,7 +340,6 @@ public class SheetsQuickStart {
             System.out.println(cell.getCell().getValue() + "\t");
         }
     }
-
     private static void ChangeContentOfACell() throws IOException, ServiceException {
         // Get the first worksheet of the first spreadsheet.
         // TODO: Choose a worksheet more intelligently based on your
