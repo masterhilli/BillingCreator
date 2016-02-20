@@ -22,20 +22,35 @@ public class Spreadsheet {
             new HashMap<>();
 
     public Spreadsheet(String googleDriveFileId) {
-        initializeSpreadsheet(googleDriveFileId);
+        initializeSpreadsheet(googleDriveFileId, "");
+    }
+
+    public Spreadsheet(String googleDriveFileId, String worksheetName) {
+        initializeSpreadsheet(googleDriveFileId, worksheetName);
     }
     public void update() {
-        if (isConnectedToSpreadsheet())
-            initializeSpreadsheet(googleSpreadSheet.getKey());
+        if (isConnectedToSpreadsheet()) {
+            String updateOnlyWorksheetName = "";
+            if (worksheetsContentByWorksheetName.size() == 1) {
+                for (String key : worksheetsContentByWorksheetName.keySet())
+                {
+                    updateOnlyWorksheetName = key;
+                }
+            }
+            initializeSpreadsheet(googleSpreadSheet.getKey(), updateOnlyWorksheetName);
+        }
     }
-    private void initializeSpreadsheet(String googleDriveFileId) {
+    private void initializeSpreadsheet(String googleDriveFileId, String worksheetName) {
         googleSpreadSheet = GoogleSpreadSheetFeed.GetSpreadsheetEntryByKey(googleDriveFileId);
         if (googleSpreadSheet != null) {
             HashMap<String, WorksheetEntry> worksheetsHashMap = GoogleWorksheetHandler.getWorksheetsForSpreadsheetEntry(googleSpreadSheet);
             for (String key :  worksheetsHashMap.keySet()) {
-                HashMap<String, CellEntry> cellsByKey = GoogleWorksheetHandler.getCellsFromWorksheet(worksheetsHashMap.get(key));
-                Pair<WorksheetEntry, HashMap<String, CellEntry>> myPair = new Pair<>(worksheetsHashMap.get(key), cellsByKey);
-                worksheetsContentByWorksheetName.put(key, myPair);
+                Pair<WorksheetEntry, HashMap<String, CellEntry>> myPair = null;
+                if (worksheetName.length() == 0 || worksheetName.compareTo(key) == 0) {
+                    HashMap<String, CellEntry> cellsByKey = GoogleWorksheetHandler.getCellsFromWorksheet(worksheetsHashMap.get(key));
+                    myPair = new Pair<>(worksheetsHashMap.get(key), cellsByKey);
+                    worksheetsContentByWorksheetName.put(key, myPair);
+                }
             }
         }
     }

@@ -19,9 +19,13 @@ public class AppRunner {
             "1pfGiE4YSX2p3_GU3S0pKYZrzNLYDyu2pEAQd7k-AqI8"};
     public static void main(String[] args) throws IOException {
         for (String key : sheetsToReceiveInformationFrom) {
-            PrintValuesOfTimesheets(key);
+            PrintValuesOfTimesheets(key, "2016-01");
         }
-/*
+
+        TestMethodsForSpreadSheets();
+    }
+
+    private static void TestMethodsForSpreadSheets() {
         Spreadsheet mySpreadsheet = new Spreadsheet("1MBc1Uvv4Wfyw31mwoGnrEzfCaXxcd1BT-aLg0x1VS_Y");
         System.out.println(mySpreadsheet.toString());
         mySpreadsheet.addNewWorksheet("MartinsSpreadSheet");
@@ -42,8 +46,9 @@ public class AppRunner {
         mySpreadsheet.update();
         System.out.println(mySpreadsheet.toString());
         mySpreadsheet.deleteWorksheet("MartinsSpreadSheet");
-        mySpreadsheet.deleteWorksheet("CopiedWorksheet");*/
+        mySpreadsheet.deleteWorksheet("CopiedWorksheet");
     }
+
     private static final String PROJECT_KEY = "C4";
     private static final String TEAMMEMBER_KEY = "C5";
     private static final String MONTH_KEY = "C6";
@@ -51,16 +56,16 @@ public class AppRunner {
     private static final String TRAVEL_COST_KEY = "E8";
     private static final String TRAVEL_HOURS_KEY = "D8";
 
-    public static void PrintValuesOfTimesheets(String key) {
-        Spreadsheet timesheet = new Spreadsheet(key);
-        String project = timesheet.receiveValueAtKey("2016-01", PROJECT_KEY);
-        String teammember = timesheet.receiveValueAtKey("2016-01", TEAMMEMBER_KEY);
-        String month = timesheet.receiveValueAtKey("2016-01", MONTH_KEY);
-        String hours = timesheet.receiveValueAtKey("2016-01", HOURS_KEY);
-        String travelCosts = timesheet.receiveValueAtKey("2016-01", TRAVEL_COST_KEY);
-        String travelHours = timesheet.receiveValueAtKey("2016-01", TRAVEL_HOURS_KEY);
+    public static void PrintValuesOfTimesheets(String googleDriveFileId, String worksheetName) {
+        Spreadsheet timesheet = new Spreadsheet(googleDriveFileId, worksheetName);
+        String project = timesheet.receiveValueAtKey(worksheetName, PROJECT_KEY);
+        String teammember = timesheet.receiveValueAtKey(worksheetName, TEAMMEMBER_KEY);
+        String month = timesheet.receiveValueAtKey(worksheetName, MONTH_KEY);
+        String hours = timesheet.receiveValueAtKey(worksheetName, HOURS_KEY);
+        String travelCosts = timesheet.receiveValueAtKey(worksheetName, TRAVEL_COST_KEY);
+        String travelHours = timesheet.receiveValueAtKey(worksheetName, TRAVEL_HOURS_KEY);
         String formatString = "************************************************************************"+
-                              "\nprj: %s	teamm: %s month: %s hours: %s tCost: %s tHours: %s\n" +
+                              "\nprj: %s teamm: %s month: %s hours: %s tCost: %s tHours: %s\n" +
                               "************************************************************************\n";
         System.out.printf(formatString, project, teammember, month, hours, travelCosts, travelHours);
     }
