@@ -12,6 +12,18 @@ public class TrackedTime {
     private double travelCosts;
     private int hourRate;
 
+    public TrackedTime() {}
+    public TrackedTime(String projectName, String monthTracked, String teamMember, double hours,
+                       double travelCosts, double travelHours, int hourRate) {
+        setProjectName(projectName);
+        setMonthTracked(monthTracked);
+        setTeamMember(teamMember);
+        setHours(hours);
+        setTravelCosts(travelCosts);
+        setTravelHours(travelHours);
+        setHourRate(hourRate);
+    }
+
     public String getProjectName() {
         return projectName;
     }
@@ -70,9 +82,7 @@ public class TrackedTime {
 
     @Override
     public String toString() {
-        String formatString = "************************************************************************"+
-                "\nPrj: %s Teamm: %s Month: %s Hours: %d Cost: %d Hours: %d Rate: %i\n" +
-                "************************************************************************\n";
+        String formatString = "Prj: %s Teamm: %s Month: %s Hours: %f Cost: %f Hours: %f Rate: %d";
         String output = String.format(formatString, this.getProjectName(),
                 this.getTeamMember(), this.getMonthTracked(), this.getHours(),
                 this.getTravelCosts(), this.getTravelHours(), this.getHourRate());

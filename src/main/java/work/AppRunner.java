@@ -9,6 +9,8 @@ import work.billing.Setting.FileSettings;
 import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
+import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
+import work.billing.Timesheet.TrackedTimeSummary;
 
 import java.io.IOException;
 
@@ -17,6 +19,7 @@ public class AppRunner {
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
             System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
+            return;
         }
         String worksheetName = args[0];
         String pathToSettingFile = args[1];
@@ -26,6 +29,15 @@ public class AppRunner {
             Spreadsheet timeSheet = new Spreadsheet(key, worksheetName);
             TrackedTime timeTracked = ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(timeSheet, worksheetName, fileSettings.getHourRateAsHashMapPerTeamMember());
             System.out.println(timeTracked.toString());
+            TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
+            try {
+                trackedTimeSum.addTrackedTime(timeTracked);
+            } catch (TrackedTimeAlreadyExistsException e) {
+                e.printStackTrace();
+            }
+
+            trackedTimeSum.printTimesForAllProjects();
+            trackedTimeSum.printTimesForAllTeamMembers();
         }
 
         // no glue if we still will need them.
