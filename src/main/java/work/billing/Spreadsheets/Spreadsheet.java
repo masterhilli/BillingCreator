@@ -27,7 +27,6 @@ public class Spreadsheet {
     public Spreadsheet(String googleDriveFileId) {
         initializeSpreadsheet(googleDriveFileId, "");
     }
-
     public Spreadsheet(String googleDriveFileId, String worksheetName) {
         initializeSpreadsheet(googleDriveFileId, worksheetName);
     }
@@ -74,7 +73,6 @@ public class Spreadsheet {
 
         return retVal;
     }
-
     public void addNewWorksheet(String name) {
         GoogleWorksheetHandler.createNewWorksheet(googleSpreadSheet, name);
     }

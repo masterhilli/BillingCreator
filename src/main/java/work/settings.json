@@ -1,0 +1,17 @@
+{
+  "exportFileId": "",
+  "importFileId": [
+    "1PcKhhiCfshJoudCfnpNobSpleOTzRcZPPYbVboNVrSE",
+    "1UtHN8gdm52ivZavaIuyzsBKO3qKcOobaHEzSenRBYu4",
+    "1kc-Ofekt_CxysmDfQgXt6L3-wz5xIyv8VifUoryrS9E",
+    "1CI_-8751llyHDucjjKExtSmq3vmLHjo8-Yt5CE1pdSA",
+    "1fSlXhu2T1gUrUBRWXgu-uEdmHY-toW7pBCErZi35RNc",
+    "1_W2mb2wO9S8fTjv17oqf66TAqJ3ibv1AMtEOMNYmJiU",
+    "1pfGiE4YSX2p3_GU3S0pKYZrzNLYDyu2pEAQd7k-AqI8"
+  ],
+  "personHourCosts": [
+    {"name": "Martin Hillbrand", "rate": 90},
+    {"name": "Test User", "rate": 110},
+    {"name": "Test AnotherUser", "rate": 133}
+  ]
+}

@@ -4,24 +4,31 @@ import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
 import google.api.GoogleServiceConnector;
 import google.api.GoogleSpreadSheetFeed;
 import google.api.spreadsheet.SheetsQuickStart;
+import work.billing.Setting.FileSettingReader;
+import work.billing.Setting.FileSettings;
+import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
+import work.billing.Timesheet.TrackedTime;
 
 import java.io.IOException;
 
 public class AppRunner {
 
-    private static String[] sheetsToReceiveInformationFrom = {  "1PcKhhiCfshJoudCfnpNobSpleOTzRcZPPYbVboNVrSE",
-            "1UtHN8gdm52ivZavaIuyzsBKO3qKcOobaHEzSenRBYu4",
-            "1kc-Ofekt_CxysmDfQgXt6L3-wz5xIyv8VifUoryrS9E",
-            "1CI_-8751llyHDucjjKExtSmq3vmLHjo8-Yt5CE1pdSA",
-            "1fSlXhu2T1gUrUBRWXgu-uEdmHY-toW7pBCErZi35RNc",
-            "1_W2mb2wO9S8fTjv17oqf66TAqJ3ibv1AMtEOMNYmJiU",
-            "1pfGiE4YSX2p3_GU3S0pKYZrzNLYDyu2pEAQd7k-AqI8"};
     public static void main(String[] args) throws IOException {
-        for (String key : sheetsToReceiveInformationFrom) {
-            PrintValuesOfTimesheets(key, "2016-01");
+        if (args.length != 2) {
+            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
+        }
+        String worksheetName = args[0];
+        String pathToSettingFile = args[1];
+        FileSettings fileSettings = FileSettingReader.ReadFileSettingsFromFile(pathToSettingFile);
+
+        for (String key : fileSettings.importFileId) {
+            Spreadsheet timeSheet = new Spreadsheet(key, worksheetName);
+            TrackedTime timeTracked = ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(timeSheet, worksheetName, fileSettings.getHourRateAsHashMapPerTeamMember());
+            System.out.println(timeTracked.toString());
         }
 
+        // no glue if we still will need them.
         TestMethodsForSpreadSheets();
     }
 
@@ -47,27 +54,6 @@ public class AppRunner {
         System.out.println(mySpreadsheet.toString());
         mySpreadsheet.deleteWorksheet("MartinsSpreadSheet");
         mySpreadsheet.deleteWorksheet("CopiedWorksheet");
-    }
-
-    private static final String PROJECT_KEY = "C4";
-    private static final String TEAMMEMBER_KEY = "C5";
-    private static final String MONTH_KEY = "C6";
-    private static final String HOURS_KEY = "B8";
-    private static final String TRAVEL_COST_KEY = "E8";
-    private static final String TRAVEL_HOURS_KEY = "D8";
-
-    public static void PrintValuesOfTimesheets(String googleDriveFileId, String worksheetName) {
-        Spreadsheet timesheet = new Spreadsheet(googleDriveFileId, worksheetName);
-        String project = timesheet.receiveValueAtKey(worksheetName, PROJECT_KEY);
-        String teammember = timesheet.receiveValueAtKey(worksheetName, TEAMMEMBER_KEY);
-        String month = timesheet.receiveValueAtKey(worksheetName, MONTH_KEY);
-        String hours = timesheet.receiveValueAtKey(worksheetName, HOURS_KEY);
-        String travelCosts = timesheet.receiveValueAtKey(worksheetName, TRAVEL_COST_KEY);
-        String travelHours = timesheet.receiveValueAtKey(worksheetName, TRAVEL_HOURS_KEY);
-        String formatString = "************************************************************************"+
-                              "\nprj: %s teamm: %s month: %s hours: %s tCost: %s tHours: %s\n" +
-                              "************************************************************************\n";
-        System.out.printf(formatString, project, teammember, month, hours, travelCosts, travelHours);
     }
 
 }

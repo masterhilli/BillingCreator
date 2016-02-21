@@ -2,6 +2,7 @@ package work.billing.Setting;
 
 import com.google.gdata.util.common.base.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,4 +13,12 @@ public class FileSettings {
     public String exportFileId;
     public List<String> importFileId;
     public List<HourRate> personHourCosts;
+
+    public HashMap<String, Integer> getHourRateAsHashMapPerTeamMember() {
+        HashMap<String, Integer> hourRatePerTeamMember = new HashMap<>();
+        for (HourRate rate : personHourCosts) {
+            hourRatePerTeamMember.put(rate.name.toLowerCase(), rate.rate);
+        }
+        return hourRatePerTeamMember;
+    }
 }
