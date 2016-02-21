@@ -17,10 +17,13 @@ import java.util.HashMap;
  * Created by mhillbrand on 2/4/2016.
  */
 public class Spreadsheet {
-    private SpreadsheetEntry googleSpreadSheet = null;
+    protected SpreadsheetEntry googleSpreadSheet = null;
     private HashMap<String, Pair<WorksheetEntry, HashMap<String, CellEntry>>> worksheetsContentByWorksheetName =
             new HashMap<>();
 
+    public Spreadsheet(SpreadsheetEntry googleSpreadSheet) {
+        this.googleSpreadSheet = googleSpreadSheet;
+    }
     public Spreadsheet(String googleDriveFileId) {
         initializeSpreadsheet(googleDriveFileId, "");
     }
@@ -92,12 +95,10 @@ public class Spreadsheet {
             e.printStackTrace();
         }
     }
-
     public void insertValueIntoCell(String worksheet, String key, String value) {
         WorksheetEntry wsEntry = worksheetsContentByWorksheetName.get(worksheet).first;
         GoogleWorksheetHandler.updateCellValueInWorksheet(wsEntry, key, value);
     }
-
     public String receiveValueAtKey(String worksheetKey, String cellKey) {
         return worksheetsContentByWorksheetName.get(worksheetKey).second.get(cellKey).getCell().getValue();
     }
