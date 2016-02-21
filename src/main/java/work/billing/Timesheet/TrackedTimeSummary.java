@@ -66,7 +66,7 @@ public class TrackedTimeSummary {
             for (TrackedTime time : trackedTimes) {
                 sumOfTimes += time.getHours();
             }
-            System.out.printf("* %s = %f\n", trackedTimes.get(0).getTeamMember(), sumOfTimes);
+            System.out.printf("* %s = %.2f\n", trackedTimes.get(0).getTeamMember(), sumOfTimes);
         }
         System.out.println("************************************************");
     }
@@ -82,7 +82,7 @@ public class TrackedTimeSummary {
                     sumOfTimes += time.getHours();
                     System.out.printf("* %s\n", time.toString());
                 }
-                System.out.printf("******* %s = %f\n",trackedTimes.get(0).getProjectName(), sumOfTimes);
+                System.out.printf("******* %s = %.2f\n",trackedTimes.get(0).getProjectName(), sumOfTimes);
             } else {
                 System.out.printf("******* %s not time entries exist\n" + primaryKey);
             }

@@ -82,7 +82,7 @@ public class TrackedTime {
 
     @Override
     public String toString() {
-        String formatString = "Prj: %s Teamm: %s Month: %s Hours: %f Cost: %f Hours: %f Rate: %d";
+        String formatString = "Prj:(%s) Teamm:(%s) Month:(%s) Hours:(%.2f) Cost:(%.2f) Hours:(%.2f) Rate:(%d)";
         String output = String.format(formatString, this.getProjectName(),
                 this.getTeamMember(), this.getMonthTracked(), this.getHours(),
                 this.getTravelCosts(), this.getTravelHours(), this.getHourRate());
