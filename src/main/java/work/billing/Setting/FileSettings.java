@@ -1,5 +1,7 @@
 package work.billing.Setting;
 
+import com.google.gdata.util.common.base.Pair;
+
 import java.util.List;
 
 /**
@@ -9,4 +11,5 @@ import java.util.List;
 public class FileSettings {
     public String exportFileId;
     public List<String> importFileId;
+    public List<HourRate> personHourCosts;
 }

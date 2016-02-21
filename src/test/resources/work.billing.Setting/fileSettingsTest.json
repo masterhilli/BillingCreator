@@ -3,5 +3,9 @@
   "importFileId": [
     "qwertzuiop1234567890-.,'*",
     "testtesttesttesttest---1234567989/*-+"
+  ],
+  "personHourCosts": [
+    {"name": "Martin Hillbrand", "rate": 90},
+    {"name": "Test User", "rate": 110}
   ]
 }

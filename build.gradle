@@ -11,6 +11,7 @@ repositories {
     maven {
         url "http://maven.burtsev.net"
     }
+    jcenter()
 }
 
 dependencies {
@@ -22,5 +23,5 @@ dependencies {
     compile 'com.google.gdata.gdata-java-client:gdata-client-meta-1.0:1.47.1'
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-3.0:1.47.1'
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-meta-3.0:1.47.1'
-
+    testCompile 'org.mockito:mockito-core:1.+'
 }
