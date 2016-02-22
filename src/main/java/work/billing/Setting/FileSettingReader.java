@@ -16,6 +16,7 @@ public class FileSettingReader {
         String absoluteFilepath = Paths.get(path).toAbsolutePath().toString();
         ObjectMapper mapper = new ObjectMapper();
         try {
+            System.out.printf("--> %s", absoluteFilepath);
             fileSettings = mapper.readValue(new File(absoluteFilepath), FileSettings.class);
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,6 +13,7 @@ import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
 import work.billing.Timesheet.TrackedTimeSummary;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class AppRunner {
 
@@ -25,23 +26,22 @@ public class AppRunner {
         String pathToSettingFile = args[1];
         FileSettings fileSettings = FileSettingReader.ReadFileSettingsFromFile(pathToSettingFile);
 
+        TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
         for (String key : fileSettings.importFileId) {
             Spreadsheet timeSheet = new Spreadsheet(key, worksheetName);
-            TrackedTime timeTracked = ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(timeSheet, worksheetName, fileSettings.getHourRateAsHashMapPerTeamMember());
-            System.out.println(timeTracked.toString());
-            TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
+            TrackedTime timeTracked = ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(
+                    timeSheet, worksheetName, fileSettings.getHourRateAsHashMapPerTeamMember());
             try {
                 trackedTimeSum.addTrackedTime(timeTracked);
             } catch (TrackedTimeAlreadyExistsException e) {
                 e.printStackTrace();
             }
-
-            trackedTimeSum.printTimesForAllProjects();
-            trackedTimeSum.printTimesForAllTeamMembers();
         }
+        trackedTimeSum.printTimesForAllProjects();
+        trackedTimeSum.printTimesForAllTeamMembers();
 
         // no glue if we still will need them.
-        TestMethodsForSpreadSheets();
+        //TestMethodsForSpreadSheets();
     }
 
     private static void TestMethodsForSpreadSheets() {

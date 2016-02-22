@@ -5,5 +5,5 @@ package work.billing.Setting;
  */
 public class HourRate {
     public String name;
-    public int rate;
+    public Integer rate;
 }

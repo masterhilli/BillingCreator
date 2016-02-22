@@ -16,7 +16,7 @@ public class TrackedTimeSummary {
     private HashMap<String, List<String>> trackedTimesPerProject = new HashMap<>();
     private HashMap<String, List<String>> trackedTimePerTeamMember = new HashMap<>();
 
-    @NotNull
+    //@NotNull
     public void addTrackedTime(TrackedTime trackedTime) throws TrackedTimeAlreadyExistsException {
         String newKey = createNewKey(trackedTime);
         if (trackedTimesMap.get(newKey) != null) {
@@ -27,7 +27,7 @@ public class TrackedTimeSummary {
         addForeignKeyToMap(trackedTimePerTeamMember, trackedTime.getTeamMember(), newKey);
     }
 
-    @NotNull
+    //@NotNull
     private void addForeignKeyToMap(HashMap<String, List<String>> mapToAddKey, String primaryKey, String foreignKey) {
         if (mapToAddKey.get(primaryKey.toLowerCase()) == null) {
             mapToAddKey.put(primaryKey.toLowerCase(), new ArrayList<>());
@@ -52,7 +52,7 @@ public class TrackedTimeSummary {
         return trackedTimes;
     }
 
-    @NotNull
+    //@NotNull
     private String createNewKey(TrackedTime trackedTime) {
         String newKey = trackedTime.getProjectName()+trackedTime.getTeamMember()+trackedTime.getMonthTracked();
         return newKey.toLowerCase();
