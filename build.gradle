@@ -8,6 +8,9 @@ jar {
     manifest {
         attributes('Main-Class': 'work.AppRunner')
     }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 repositories {
@@ -28,4 +31,11 @@ dependencies {
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-3.0:1.47.1'
     compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-meta-3.0:1.47.1'
     testCompile 'org.mockito:mockito-core:1.+'
+}
+
+task moveNecessaryFilesToOutputFolder(type: Copy) {
+    from 'build/libs/google-drive-api-1.0.jar'
+    from 'src/client_secret.json'
+    from 'src/main/resources/work/settings.json'
+    into 'output'
 }
