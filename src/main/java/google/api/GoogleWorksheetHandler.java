@@ -35,8 +35,8 @@ public class GoogleWorksheetHandler {
     public static void createNewWorksheet(SpreadsheetEntry spreadsheet, String worksheetName) {
         WorksheetEntry worksheet = new WorksheetEntry();
         worksheet.setTitle(new PlainTextConstruct(worksheetName));
-        worksheet.setColCount(10);
-        worksheet.setRowCount(20);
+        worksheet.setColCount(50);
+        worksheet.setRowCount(1000);
         addWorksheetEntry(spreadsheet, worksheet);
     }
 

@@ -38,8 +38,8 @@ public class AppRunner {
                 e.printStackTrace();
             }
         }
-        trackedTimeSum.printTimesForAllProjects();
-        trackedTimeSum.printTimesForAllTeamMembers();
+        //trackedTimeSum.printTimesForAllProjects();
+        //trackedTimeSum.printTimesForAllTeamMembers();
         int startPos = 10;
         for (String projectName : trackedTimeSum.getProjectNames()) {
             ProjectSummarySpreadsheetUpdater export = new ProjectSummarySpreadsheetUpdater(fileSettings.exportFileId,
@@ -47,6 +47,7 @@ public class AppRunner {
             export.WriteProjectToSpreadSheet(startPos, worksheetName);
             startPos = export.getLastPosition() + 1;
         }
+        System.out.println("finished update of field.");
         // no glue if we still will need them.
         //TestMethodsForSpreadSheets();
     }

@@ -14,13 +14,14 @@ public class ProjectSummarySpreadsheetUpdater {
     private String workSheetName = "sheet 1s";
 
     public ProjectSummarySpreadsheetUpdater(String googleDriveIdToExportProject, List<TrackedTime> trackedTimesForProject) {
-        exportSpreadsheet = new Spreadsheet(googleDriveIdToExportProject);
+        exportSpreadsheet = new Spreadsheet(googleDriveIdToExportProject, "2016-01");
         this.trackedTimesPerProject = trackedTimesForProject;
     }
 
     public void WriteProjectToSpreadSheet(int startingPosition, String workSheetName) {
-        exportSpreadsheet.addNewWorksheet(workSheetName);
         this.workSheetName = workSheetName;
+        //exportSpreadsheet.addNewWorksheet(workSheetName);
+        //exportSpreadsheet.update(workSheetName);
         writeHeading(startingPosition++);
         int currentPosition = startingPosition;
         double sumOfTravelCosts = 0.0;
@@ -29,6 +30,7 @@ public class ProjectSummarySpreadsheetUpdater {
         }
         writeTrackedTravelCosts(currentPosition++, sumOfTravelCosts);
         writeSums(currentPosition++, startingPosition);
+        lastPosition = currentPosition+1;
     }
 
 
@@ -41,6 +43,7 @@ public class ProjectSummarySpreadsheetUpdater {
     }
 
     private void writeEntryToColumnByFormatString(String format, int currentRow, String value) {
+        System.out.printf("UPDATE: %s with val: %s\n", String.format(format, currentRow), value);
         exportSpreadsheet.insertValueIntoCell(workSheetName, String.format(format, currentRow), value);
     }
 

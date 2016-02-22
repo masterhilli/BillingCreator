@@ -1,0 +1,16 @@
+WARNUNG: unable to change permissions for owner: C:\Users\Felix\.credentials\drive-java-quickstart
+java.lang.NullPointerException
+        at java.io.Reader.<init>(Unknown Source)
+        at java.io.InputStreamReader.<init>(Unknown Source)
+        at google.api.auth.AuthorizeService.authorize(AuthorizeService.java:75)
+        at google.api.auth.AuthorizeService.getCredential(AuthorizeService.java:99)
+        at google.api.GoogleServiceConnector.GetSpreadSheetService(GoogleServiceConnector.java:18)
+        at google.api.GoogleSpreadSheetFeed.GetFeedOfAllSpreadsheetsInService(GoogleSpreadSheetFeed.java:32)
+        at google.api.GoogleSpreadSheetFeed.GetSpreadsheetEntryByKey(GoogleSpreadSheetFeed.java:42)
+        at work.billing.Spreadsheets.Spreadsheet.initializeSpreadsheet(Spreadsheet.java:46)
+        at work.billing.Spreadsheets.Spreadsheet.<init>(Spreadsheet.java:31)
+        at work.AppRunner.main(AppRunner.java:31)
+Exception in thread "main" java.lang.NullPointerException
+        at work.billing.Spreadsheets.Spreadsheet.receiveValueAtKey(Spreadsheet.java:101)
+        at work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(ProjectsheetToTrackTimeMapper.java:20)
+        at work.AppRunner.main(AppRunner.java:32)
