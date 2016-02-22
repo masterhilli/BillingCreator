@@ -72,6 +72,10 @@ public class AuthorizeService {
         // Load client secrets.
         InputStream in =
                 AuthorizeService.class.getResourceAsStream(pathToAuthorizationFile);
+        if (in == null) {
+            //System.out.println("The path to the authorization file is wrong, recheck: " + pathToAuthorizationFile);
+            throw new NullPointerException("The path to the authorization file is wrong, recheck: " + pathToAuthorizationFile);
+        }
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
