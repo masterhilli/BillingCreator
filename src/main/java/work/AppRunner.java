@@ -4,6 +4,7 @@ package work;
 import google.api.auth.AuthorizeService;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
+import work.billing.Spreadsheets.ProjectSummarySpreadsheetUpdater;
 import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
@@ -39,8 +40,13 @@ public class AppRunner {
         }
         trackedTimeSum.printTimesForAllProjects();
         trackedTimeSum.printTimesForAllTeamMembers();
-
-
+        int startPos = 10;
+        for (String projectName : trackedTimeSum.getProjectNames()) {
+            ProjectSummarySpreadsheetUpdater export = new ProjectSummarySpreadsheetUpdater(fileSettings.exportFileId,
+                    trackedTimeSum.receiveTrackedTimesPerProject(projectName));
+            export.WriteProjectToSpreadSheet(startPos, worksheetName);
+            startPos = export.getLastPosition() + 1;
+        }
         // no glue if we still will need them.
         //TestMethodsForSpreadSheets();
     }

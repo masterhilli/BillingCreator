@@ -11,6 +11,7 @@ import google.api.GoogleWorksheetHandler;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,14 +35,18 @@ public class Spreadsheet {
         if (isConnectedToSpreadsheet()) {
             String updateOnlyWorksheetName = "";
             if (worksheetsContentByWorksheetName.size() == 1) {
-                for (String key : worksheetsContentByWorksheetName.keySet())
-                {
-                    updateOnlyWorksheetName = key;
-                }
+                updateOnlyWorksheetName = worksheetsContentByWorksheetName.keySet().stream().collect(Collectors.toList()).get(0);
+
             }
             initializeSpreadsheet(googleSpreadSheet.getKey(), updateOnlyWorksheetName);
         }
     }
+    public void update(String workSheetName) {
+        if (isConnectedToSpreadsheet()) {
+            initializeSpreadsheet(googleSpreadSheet.getKey(), workSheetName);
+        }
+    }
+
     private void initializeSpreadsheet(String googleDriveFileId, String worksheetName) {
         googleSpreadSheet = GoogleSpreadSheetFeed.GetSpreadsheetEntryByKey(googleDriveFileId);
         if (googleSpreadSheet != null) {

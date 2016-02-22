@@ -8,16 +8,12 @@ import java.util.List;
  * Created by mhillbrand on 2/22/2016.
  */
 public class ProjectSummarySpreadsheetUpdater {
-    private char column = 'A';
-    private Integer row = 1;
     private List<TrackedTime> trackedTimesPerProject;
     private Spreadsheet exportSpreadsheet;
     private int lastPosition = 0;
-    private String workSheetName = "sheet 1s"
+    private String workSheetName = "sheet 1s";
 
     public ProjectSummarySpreadsheetUpdater(String googleDriveIdToExportProject, List<TrackedTime> trackedTimesForProject) {
-        //this.column = columnToStart;
-        //this.row = new Integer(rowToStart);
         exportSpreadsheet = new Spreadsheet(googleDriveIdToExportProject);
         this.trackedTimesPerProject = trackedTimesForProject;
     }
