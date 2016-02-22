@@ -15,12 +15,9 @@ import java.io.IOException;
 public class AppRunner {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 3) {
-            System.out.println("Please provide 3 args: <worksheetname> <pathToSettingsFile> <pathToGoogleSecAppFile>");
+        if (args.length != 2) {
+            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
             return;
-        }
-        if (args.length == 3) {
-            AuthorizeService.setPathToAuthorizationFile(args[2]);
         }
         String worksheetName = args[0];
         String pathToSettingFile = args[1];

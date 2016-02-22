@@ -59,9 +59,6 @@ public class AuthorizeService {
     }
 
     private static String pathToAuthorizationFile = "/google/api/auth/client_secret.json";
-    public static void setPathToAuthorizationFile(String path) {
-        pathToAuthorizationFile = path;
-    }
 
     /**
      * Creates an authorized Credential object.
@@ -73,7 +70,6 @@ public class AuthorizeService {
         InputStream in =
                 AuthorizeService.class.getResourceAsStream(pathToAuthorizationFile);
         if (in == null) {
-            //System.out.println("The path to the authorization file is wrong, recheck: " + pathToAuthorizationFile);
             throw new NullPointerException("The path to the authorization file is wrong, recheck: " + pathToAuthorizationFile);
         }
         GoogleClientSecrets clientSecrets =
