@@ -41,7 +41,7 @@ public class AppRunner {
         trackedTimeSum.printTimesForAllTeamMembers();
 
         // no glue if we still will need them.
-        TestMethodsForSpreadSheets();
+        //TestMethodsForSpreadSheets();
     }
 
     private static void TestMethodsForSpreadSheets() {
