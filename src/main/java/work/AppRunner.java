@@ -1,9 +1,7 @@
 package work;
 
-import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
-import google.api.GoogleServiceConnector;
-import google.api.GoogleSpreadSheetFeed;
-import google.api.spreadsheet.SheetsQuickStart;
+
+import google.api.auth.AuthorizeService;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
@@ -13,14 +11,16 @@ import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
 import work.billing.Timesheet.TrackedTimeSummary;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class AppRunner {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
+        if (args.length != 3) {
+            System.out.println("Please provide 3 args: <worksheetname> <pathToSettingsFile> <pathToGoogleSecAppFile>");
             return;
+        }
+        if (args.length == 3) {
+            AuthorizeService.setPathToAuthorizationFile(args[2]);
         }
         String worksheetName = args[0];
         String pathToSettingFile = args[1];
@@ -41,7 +41,7 @@ public class AppRunner {
         trackedTimeSum.printTimesForAllTeamMembers();
 
         // no glue if we still will need them.
-        //TestMethodsForSpreadSheets();
+        TestMethodsForSpreadSheets();
     }
 
     private static void TestMethodsForSpreadSheets() {

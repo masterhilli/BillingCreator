@@ -1,10 +1,14 @@
 apply plugin: 'java'
-apply plugin: 'application'
 
-mainClassName = 'GoogleApiQuickstartGuide'
 sourceCompatibility = 8
 targetCompatibility = 8
 version = '1.0'
+
+jar {
+    manifest {
+        attributes('Main-Class': 'work.AppRunner')
+    }
+}
 
 repositories {
     mavenCentral()

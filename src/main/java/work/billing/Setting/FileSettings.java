@@ -1,7 +1,5 @@
 package work.billing.Setting;
 
-import com.google.gdata.util.common.base.Pair;
-
 import java.util.HashMap;
 import java.util.List;
 

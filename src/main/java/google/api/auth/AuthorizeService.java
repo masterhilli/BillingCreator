@@ -58,6 +58,11 @@ public class AuthorizeService {
         }
     }
 
+    private static String pathToAuthorizationFile = "/google/api/auth/client_secret.json";
+    public static void setPathToAuthorizationFile(String path) {
+        pathToAuthorizationFile = path;
+    }
+
     /**
      * Creates an authorized Credential object.
      * @return an authorized Credential object.
@@ -66,7 +71,7 @@ public class AuthorizeService {
     private static Credential authorize(java.util.Collection<String> driveScopes) throws IOException {
         // Load client secrets.
         InputStream in =
-                AuthorizeService.class.getResourceAsStream("/google/api/auth/client_secret.json");
+                AuthorizeService.class.getResourceAsStream(pathToAuthorizationFile);
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

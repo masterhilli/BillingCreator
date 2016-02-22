@@ -1,20 +1,15 @@
 package google.api.spreadsheet;
 
-import com.google.gdata.client.Query;
-import com.google.gdata.client.spreadsheet.SpreadsheetQuery;
-import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;
 import com.google.gdata.data.spreadsheet.*;
 import com.google.gdata.util.ServiceException;
 import google.api.GoogleServiceConnector;
 import google.api.GoogleSpreadSheetFeed;
-import google.api.auth.AuthorizeService;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 public class SheetsQuickStart {
