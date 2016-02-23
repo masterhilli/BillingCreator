@@ -4,6 +4,7 @@ package work;
 import google.api.auth.AuthorizeService;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
+import work.billing.Setting.HourRate;
 import work.billing.Spreadsheets.ProjectSummarySpreadsheetUpdater;
 import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
@@ -45,14 +46,31 @@ public class AppRunner {
         }
         //trackedTimeSum.printTimesForAllProjects();
         //trackedTimeSum.printTimesForAllTeamMembers();
-        int startPos = 10;
+        int startPos = settings.personHourCosts.size()+1;
+        startPos = writeProjectsToSpreadsheet(worksheetName, settings, trackedTimeSum, startPos);
+        writeSumOfTimesPerTeamMemebersToSpreadsheet(worksheetName,settings, 1,  startPos);
+        System.out.println("finished update of field.");
+    }
+
+    private static void writeSumOfTimesPerTeamMemebersToSpreadsheet(String worksheetName, FileSettings settings, int startPos, int endPosOfProjects) {
+        Spreadsheet exportSpreadsheet = new Spreadsheet(settings.exportFileId);
+        for (HourRate hourRatePerTeamMember: settings.personHourCosts) {
+            String value = String.format("=SUMIF($B$%d:$B$%d,B%d,$B$%d:$B$%d)",
+                    settings.getHourRateAsHashMapPerTeamMember().size()+1, endPosOfProjects, startPos,
+                    settings.getHourRateAsHashMapPerTeamMember().size()+1, endPosOfProjects);
+            exportSpreadsheet.insertValueIntoCell(worksheetName,1, startPos, value);
+            exportSpreadsheet.insertValueIntoCell(worksheetName,2, startPos++, hourRatePerTeamMember.name);
+        }
+    }
+
+    private static int writeProjectsToSpreadsheet(String worksheetName, FileSettings settings, TrackedTimeSummary trackedTimeSum, int startPos) {
         for (String projectName : trackedTimeSum.getProjectNames()) {
             ProjectSummarySpreadsheetUpdater export = new ProjectSummarySpreadsheetUpdater(settings.exportFileId,
                     trackedTimeSum.receiveTrackedTimesPerProject(projectName));
             export.WriteProjectToSpreadSheet(startPos, worksheetName);
             startPos = export.getLastPosition() + 1;
         }
-        System.out.println("finished update of field.");
+        return startPos;
     }
 
     private static void TestMethodsForSpreadSheets() {
