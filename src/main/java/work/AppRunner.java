@@ -16,15 +16,6 @@ import java.io.IOException;
 public class AppRunner {
 
     public static void main(String[] args) throws IOException {
-<<<<<<< HEAD
-        if (args.length != 2) {
-            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
-            return;
-        }
-        String worksheetName = args[0];
-        String pathToSettingFile = args[1];
-        FileSettings fileSettings = FileSettingReader.ReadFileSettingsFromFile(pathToSettingFile);
-=======
         if (args.length < 2) {
             System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
             return;
@@ -40,7 +31,6 @@ public class AppRunner {
     }
 
     private static void createBillingSpreadsheet(String worksheetName, FileSettings settings) {
->>>>>>> exportSpreadsheet
 
         TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
         for (String key : settings.importFileId) {
