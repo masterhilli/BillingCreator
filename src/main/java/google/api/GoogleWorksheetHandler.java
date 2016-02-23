@@ -35,8 +35,8 @@ public class GoogleWorksheetHandler {
     public static void createNewWorksheet(SpreadsheetEntry spreadsheet, String worksheetName) {
         WorksheetEntry worksheet = new WorksheetEntry();
         worksheet.setTitle(new PlainTextConstruct(worksheetName));
-        worksheet.setColCount(10);
-        worksheet.setRowCount(20);
+        worksheet.setColCount(50);
+        worksheet.setRowCount(1000);
         addWorksheetEntry(spreadsheet, worksheet);
     }
 
@@ -117,9 +117,10 @@ public class GoogleWorksheetHandler {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        CellEntry newEntry = new CellEntry();
-        newEntry.setTitle(new PlainTextConstruct(key));
-        newEntry.changeInputValueLocal(value);
+        CellEntry newEntry = new CellEntry(5, 10, value);
+        // TODO: find a new / better way to set values to the spreadsheet!
+        //newEntry.setTitle(new PlainTextConstruct(key));
+        //newEntry.changeInputValueLocal(value);
         try {
             cellFeed.insert(newEntry);
         } catch (ServiceException e) {

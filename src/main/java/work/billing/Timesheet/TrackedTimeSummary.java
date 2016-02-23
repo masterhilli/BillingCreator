@@ -24,10 +24,15 @@ public class TrackedTimeSummary {
         addForeignKeyToMap(trackedTimePerTeamMember, trackedTime.getTeamMember(), newKey);
     }
 
+    public List<String> getProjectNames() {
+        return trackedTimesPerProject.keySet().stream().collect(Collectors.toList());
+    }
+
     //@NotNull
     private void addForeignKeyToMap(HashMap<String, List<String>> mapToAddKey, String primaryKey, String foreignKey) {
         if (mapToAddKey.get(primaryKey.toLowerCase()) == null) {
             mapToAddKey.put(primaryKey.toLowerCase(), new ArrayList<>());
+            System.out.println("FOUND new Project: " + primaryKey.toLowerCase());
         }
         mapToAddKey.get(primaryKey.toLowerCase()).add(foreignKey);
     }

@@ -67,10 +67,15 @@ public class AuthorizeService {
      */
     private static Credential authorize(java.util.Collection<String> driveScopes) throws IOException {
         // Load client secrets.
+        System.out.printf("Path to google: %s\n", pathToAuthorizationFile);
         InputStream in =
                 AuthorizeService.class.getResourceAsStream(pathToAuthorizationFile);
         if (in == null) {
+<<<<<<< HEAD
             throw new NullPointerException("The path to the authorization file is wrong, recheck: " + pathToAuthorizationFile);
+=======
+            System.out.println("The path to the resource could not be loaded: "+pathToAuthorizationFile);
+>>>>>>> exportSpreadsheet
         }
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
