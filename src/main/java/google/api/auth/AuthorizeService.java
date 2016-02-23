@@ -58,10 +58,7 @@ public class AuthorizeService {
         }
     }
 
-    private static String pathToAuthorizationFile = ""; //"/google/api/auth/client_secret.json";
-    public static void setPathToAuthorizationFile(String path) {
-        pathToAuthorizationFile = path;
-    }
+    private static String pathToAuthorizationFile = "/google/api/auth/client_secret.json";
 
     /**
      * Creates an authorized Credential object.
@@ -73,6 +70,9 @@ public class AuthorizeService {
         System.out.printf("Path to google: %s\n", pathToAuthorizationFile);
         InputStream in =
                 AuthorizeService.class.getResourceAsStream(pathToAuthorizationFile);
+        if (in == null) {
+            System.out.println("The path to the resource could not be loaded: "+pathToAuthorizationFile);
+        }
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

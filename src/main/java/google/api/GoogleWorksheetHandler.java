@@ -118,6 +118,7 @@ public class GoogleWorksheetHandler {
             e.printStackTrace();
         }
         CellEntry newEntry = new CellEntry();
+        // TODO: find a new / better way to set values to the spreadsheet!
         newEntry.setTitle(new PlainTextConstruct(key));
         newEntry.changeInputValueLocal(value);
         try {
