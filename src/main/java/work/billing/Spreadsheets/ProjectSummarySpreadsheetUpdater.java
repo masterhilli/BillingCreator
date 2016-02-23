@@ -12,6 +12,7 @@ public class ProjectSummarySpreadsheetUpdater {
     private Spreadsheet exportSpreadsheet;
     private int lastPosition = 0;
     private String workSheetName = "sheet 1s";
+    private ProjectRowReference rowReferences = new ProjectRowReference();
 
     public ProjectSummarySpreadsheetUpdater(String googleDriveIdToExportProject, List<TrackedTime> trackedTimesForProject) {
         exportSpreadsheet = new Spreadsheet(googleDriveIdToExportProject, "2016-01");
@@ -33,6 +34,7 @@ public class ProjectSummarySpreadsheetUpdater {
 
 
     private void writeHeading(int currentRow) {
+        rowReferences.setProjectNameRow(currentRow);
         writeEntryToColumnByFormatString(1, currentRow, getProjectName());
         writeEntryToColumnByFormatString(3, currentRow, "Stundensatz");
         writeEntryToColumnByFormatString(4, currentRow, "Netto");
@@ -54,6 +56,7 @@ public class ProjectSummarySpreadsheetUpdater {
     }
 
     private void writeTrackedTravelCosts(int currentRow, double sumOfTravelCosts) {
+        rowReferences.setTravelCostRow(currentRow);
         writeEntryToColumnByFormatString(2, currentRow, "Reise- und Nächtigungskosten");
         writeEntryToColumnByFormatString(4, currentRow, String.format("%.2f", sumOfTravelCosts));
 
@@ -61,6 +64,7 @@ public class ProjectSummarySpreadsheetUpdater {
     }
 
     private void writeSums(int currentRow, int startingPosition) {
+        rowReferences.setSumRow(currentRow);
         writeEntryToColumnByFormatString(4, currentRow, String.format("=SUM(D%d:D%d)", currentRow-1, startingPosition));
         writeEntryToColumnByFormatString(5, currentRow, String.format("=SUM(E%d:E%d)", currentRow-1, startingPosition));
         writeEntryToColumnByFormatString(6, currentRow, String.format("=SUM(F%d:F%d)", currentRow-1, startingPosition));
@@ -80,5 +84,9 @@ public class ProjectSummarySpreadsheetUpdater {
         if (trackedTimesPerProject.size() >= 1)
             return trackedTimesPerProject.get(0).getProjectName();
         return "";
+    }
+
+    public ProjectRowReference getRowInformationForReferences() {
+        return rowReferences;
     }
 }
