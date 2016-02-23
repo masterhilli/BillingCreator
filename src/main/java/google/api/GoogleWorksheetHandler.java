@@ -117,10 +117,10 @@ public class GoogleWorksheetHandler {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        CellEntry newEntry = new CellEntry();
+        CellEntry newEntry = new CellEntry(5, 10, value);
         // TODO: find a new / better way to set values to the spreadsheet!
-        newEntry.setTitle(new PlainTextConstruct(key));
-        newEntry.changeInputValueLocal(value);
+        //newEntry.setTitle(new PlainTextConstruct(key));
+        //newEntry.changeInputValueLocal(value);
         try {
             cellFeed.insert(newEntry);
         } catch (ServiceException e) {
