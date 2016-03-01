@@ -1,6 +1,8 @@
 package work;
 
 
+import com.google.api.services.drive.model.FileList;
+import work.billing.Files.ListSpreadsheets;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Export.ProjectSummarySpreadsheetExporter;
@@ -18,15 +20,34 @@ import java.util.List;
 public class AppRunner implements Runnable {
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
-            return;
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "-create":
+                    exportProjectDataToSpreadSheet(args[1], args[2]);
+                    break;
+                case "-list":
+                    TestFileIdFetch(args[1]);
+                    break;
+                default:
+                    printHelpInformation();
+            }
+        } else {
+            printHelpInformation();
         }
+    }
+
+    private static void printHelpInformation() {
+        System.out.println("Please provide 3 args: ");
+        System.out.println("-create <worksheetname> <pathToSettingsFile>");
+        System.out.println(" or ");
+        System.out.println("-list \"filterstring\"");
+    }
+
+    private static void exportProjectDataToSpreadSheet(String worksheetName, String pathToSetting) {
 
         long startTime = System.currentTimeMillis();
 
-        FileSettings settings = FileSettingReader.ReadFileSettingsFromFile(args[1]);
-        String worksheetName = args[0];
+        FileSettings settings = FileSettingReader.ReadFileSettingsFromFile(pathToSetting);
         TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
         for (String key : settings.importFileId) {
             Spreadsheet timeSheet = new Spreadsheet(key, worksheetName);
@@ -53,7 +74,7 @@ public class AppRunner implements Runnable {
 
         }
 
-        boolean threadsStillRunning = true;
+        boolean threadsStillRunning;
         do {
             threadsStillRunning = false;
             for (Thread t : threads) {
@@ -86,10 +107,13 @@ public class AppRunner implements Runnable {
     @Override
     public void run() {
         for (Integer row : rows.keySet()) {
-            spreadsheet.insertValueIntoCell(worksheetName, column.intValue(), row.intValue(), rows.get(row));
+            spreadsheet.insertValueIntoCell(worksheetName, column, row, rows.get(row));
         }
-        System.out.println("COLUMN finished [" + column.toString() + "]");
+        System.out.println("\nCOLUMN finished [" + column.toString() + "]");
     }
 
+    private static void TestFileIdFetch(String arg) throws IOException {
+        FileList myFiles = ListSpreadsheets.retrieveAllFiles(arg);
+    }
 
 }

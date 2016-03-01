@@ -111,13 +111,17 @@ public class Spreadsheet {
     public void insertValueIntoCell(String worksheet, int column, int row, String value) {
         WorksheetEntry wsEntry = worksheetsContentByWorksheetName.get(worksheet).first;
         CellEntry cellEntry = new CellEntry(row, column, value);
-        try {
-            GoogleServiceConnector.GetSpreadSheetService().insert(wsEntry.getCellFeedUrl(), cellEntry);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        int exceptionCount = 2;
+        do {
+            try {
+                GoogleServiceConnector.GetSpreadSheetService().insert(wsEntry.getCellFeedUrl(), cellEntry);
+                exceptionCount = 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                exceptionCount--;
+            }
+        } while (exceptionCount != 0);
+
     }
 
     public String receiveValueAtKey(String worksheetKey, String cellKey) {
