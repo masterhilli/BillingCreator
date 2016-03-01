@@ -1,5 +1,6 @@
-package work.billing.Spreadsheets;
+package work.billing.Export;
 
+import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 
 import java.util.HashMap;

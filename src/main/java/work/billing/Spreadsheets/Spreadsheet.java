@@ -26,12 +26,15 @@ public class Spreadsheet {
     public Spreadsheet(SpreadsheetEntry googleSpreadSheet) {
         this.googleSpreadSheet = googleSpreadSheet;
     }
+
     public Spreadsheet(String googleDriveFileId) {
         initializeSpreadsheet(googleDriveFileId, "");
     }
+
     public Spreadsheet(String googleDriveFileId, String worksheetName) {
         initializeSpreadsheet(googleDriveFileId, worksheetName);
     }
+
     public void update() {
         if (isConnectedToSpreadsheet()) {
             String updateOnlyWorksheetName = "";
@@ -42,6 +45,7 @@ public class Spreadsheet {
             initializeSpreadsheet(googleSpreadSheet.getKey(), updateOnlyWorksheetName);
         }
     }
+
     public void update(String workSheetName) {
         if (isConnectedToSpreadsheet()) {
             initializeSpreadsheet(googleSpreadSheet.getKey(), workSheetName);
@@ -52,7 +56,7 @@ public class Spreadsheet {
         googleSpreadSheet = GoogleSpreadSheetFeed.GetSpreadsheetEntryByKey(googleDriveFileId);
         if (googleSpreadSheet != null) {
             HashMap<String, WorksheetEntry> worksheetsHashMap = GoogleWorksheetHandler.getWorksheetsForSpreadsheetEntry(googleSpreadSheet);
-            for (String key :  worksheetsHashMap.keySet()) {
+            for (String key : worksheetsHashMap.keySet()) {
                 Pair<WorksheetEntry, HashMap<String, CellEntry>> myPair = null;
                 if (worksheetName.length() == 0 || worksheetName.compareTo(key) == 0) {
                     HashMap<String, CellEntry> cellsByKey = GoogleWorksheetHandler.getCellsFromWorksheet(worksheetsHashMap.get(key));
@@ -62,6 +66,7 @@ public class Spreadsheet {
             }
         }
     }
+
     public boolean isConnectedToSpreadsheet() {
         return googleSpreadSheet != null;
     }
@@ -79,12 +84,15 @@ public class Spreadsheet {
 
         return retVal;
     }
+
     public void addNewWorksheet(String name) {
         GoogleWorksheetHandler.createNewWorksheet(googleSpreadSheet, name);
     }
+
     public void deleteWorksheet(String name) {
         GoogleWorksheetHandler.deleteWorksheet(worksheetsContentByWorksheetName.get(name).first);
     }
+
     public void copyWorksheet(String copyFrom, String createNewWorksheet) {
         WorksheetEntry tobeCopied = worksheetsContentByWorksheetName.get(copyFrom).first;
         tobeCopied.setTitle(new PlainTextConstruct(createNewWorksheet));
@@ -92,67 +100,32 @@ public class Spreadsheet {
         update();
         try {
             GoogleWorksheetHandler.copyCellsFromWorksheetToWorksheet(worksheetsContentByWorksheetName.get(copyFrom).first,
-                                                                     worksheetsContentByWorksheetName.get(createNewWorksheet).first);
+                    worksheetsContentByWorksheetName.get(createNewWorksheet).first);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
     }
+
     public void insertValueIntoCell(String worksheet, int column, int row, String value) {
         WorksheetEntry wsEntry = worksheetsContentByWorksheetName.get(worksheet).first;
         CellEntry cellEntry = new CellEntry(row, column, value);
-        try {
-            GoogleServiceConnector.GetSpreadSheetService().insert(wsEntry.getCellFeedUrl(), cellEntry);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        //GoogleWorksheetHandler.updateCellValueInWorksheet(wsEntry, column, row, value);
+        int exceptionCount = 2;
+        do {
+            try {
+                GoogleServiceConnector.GetSpreadSheetService().insert(wsEntry.getCellFeedUrl(), cellEntry);
+                exceptionCount = 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                exceptionCount--;
+            }
+        } while (exceptionCount != 0);
+
     }
+
     public String receiveValueAtKey(String worksheetKey, String cellKey) {
         return worksheetsContentByWorksheetName.get(worksheetKey).second.get(cellKey).getCell().getValue();
-    }
-
-    public void getRows(String worksheet) {
-        WorksheetEntry wsEntry = worksheetsContentByWorksheetName.get(worksheet).first;
-
-        URL listFeedUrl = wsEntry.getListFeedUrl();
-        ListFeed listFeed = null;
-        try {
-            listFeed = GoogleServiceConnector.GetSpreadSheetService().getFeed(listFeedUrl, ListFeed.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-
-        if (listFeed == null)
-            System.out.println("listFeed was null");
-        System.out.println("Size of list feed entries: " + listFeed.getEntries().size());
-
-        for (ListEntry row : listFeed.getEntries()) {
-            System.out.printf("Row: %s", row.getTitle().getPlainText());
-        }
-    }
-
-    public void addData(String worksheet) {
-        URL listFeedUrl =  worksheetsContentByWorksheetName.get(worksheet).first.getListFeedUrl();
-        Map<String,String> rowValues = new HashMap<>();
-        rowValues.put("A1", "TEST");
-        rowValues.put("A2", "TEST");
-        rowValues.put("B1", "TEST");
-        rowValues.put("C1", "TEST");
-        rowValues.put("D1", "TEST");
-        ListEntry row = createRow(rowValues);
-        try {
-            row = GoogleServiceConnector.GetSpreadSheetService().insert(listFeedUrl, row);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
     }
 
     private ListEntry createRow(Map<String, String> rowValues) {
