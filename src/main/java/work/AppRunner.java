@@ -1,7 +1,8 @@
 package work;
 
 
-import google.api.auth.AuthorizeService;
+import com.google.api.services.drive.model.FileList;
+import work.billing.Files.ListSpreadsheets;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Spreadsheets.ProjectSummarySpreadsheetUpdater;
@@ -16,16 +17,24 @@ import java.io.IOException;
 public class AppRunner {
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Please provide 2 args: <worksheetname> <pathToSettingsFile>");
-            return;
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "-create":
+                    FileSettings settings = FileSettingReader.ReadFileSettingsFromFile(args[1]);
+
+                    createBillingSpreadsheet(args[0], settings);
+                    break;
+                case "-list":
+                    TestFileIdFetch(args[1]);
+                    break;
+                default:
+            }
+        } else {
+            System.out.println("Please provide 3 args: ");
+            System.out.println("-create <worksheetname> <pathToSettingsFile>");
+            System.out.println(" or ");
+            System.out.println("-list \"filterstring\"");
         }
-
-        FileSettings settings = FileSettingReader.ReadFileSettingsFromFile(args[1]);
-
-        createBillingSpreadsheet(args[0], settings);
-
-
         // no glue if we still will need them.
         //TestMethodsForSpreadSheets();
     }
@@ -53,6 +62,10 @@ public class AppRunner {
             startPos = export.getLastPosition() + 1;
         }
         System.out.println("finished update of field.");
+    }
+
+    private static void TestFileIdFetch(String arg) throws IOException {
+        FileList myFiles = ListSpreadsheets.retrieveAllFiles(arg);
     }
 
     private static void TestMethodsForSpreadSheets() {
