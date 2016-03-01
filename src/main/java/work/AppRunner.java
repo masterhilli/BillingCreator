@@ -5,7 +5,7 @@ import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Setting.HourRate;
 import work.billing.Spreadsheets.ProjectRowReference;
-import work.billing.Spreadsheets.ProjectSummarySpreadsheetUpdater;
+import work.billing.Spreadsheets.ProjectSummarySpreadsheetExporter;
 import work.billing.Spreadsheets.ProjectsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
@@ -27,10 +27,6 @@ public class AppRunner {
         FileSettings settings = FileSettingReader.ReadFileSettingsFromFile(args[1]);
 
         createBillingSpreadsheet(args[0], settings);
-
-
-        // no glue if we still will need them.
-        //TestMethodsForSpreadSheets();
     }
 
     private static void createBillingSpreadsheet(String worksheetName, FileSettings settings) {
@@ -46,8 +42,7 @@ public class AppRunner {
                 e.printStackTrace();
             }
         }
-        //trackedTimeSum.printTimesForAllProjects();
-        //trackedTimeSum.printTimesForAllTeamMembers();
+
         int startPos = settings.personHourCosts.size()+3;
         startPos = writeProjectsToSpreadsheet(worksheetName, settings, trackedTimeSum, startPos);
         writeSumOfTimesPerTeamMembersToSpreadsheet(worksheetName,settings, 1,  startPos);
@@ -187,8 +182,8 @@ public class AppRunner {
     private static List<ProjectRowReference> rowsForRerferencesPerProject = new ArrayList<>();
     private static int writeProjectsToSpreadsheet(String worksheetName, FileSettings settings, TrackedTimeSummary trackedTimeSum, int startPos) {
         for (String projectName : trackedTimeSum.getProjectNames()) {
-            ProjectSummarySpreadsheetUpdater export = new ProjectSummarySpreadsheetUpdater(settings.exportFileId,
-                    trackedTimeSum.receiveTrackedTimesPerProject(projectName));
+            ProjectSummarySpreadsheetExporter export = new ProjectSummarySpreadsheetExporter(settings.exportFileId,
+                    trackedTimeSum.receiveTrackedTimesPerProject(projectName), worksheetName);
             export.WriteProjectToSpreadSheet(startPos, worksheetName);
             rowsForRerferencesPerProject.add(export.getRowInformationForReferences());
             listOfSums.add(new Integer(export.getLastPosition()-2));
@@ -243,32 +238,4 @@ public class AppRunner {
 
         return row+3;
     }
-
-
-
-    /*
-    private static void TestMethodsForSpreadSheets() {
-        Spreadsheet mySpreadsheet = new Spreadsheet("1MBc1Uvv4Wfyw31mwoGnrEzfCaXxcd1BT-aLg0x1VS_Y");
-        System.out.println(mySpreadsheet.toString());
-        mySpreadsheet.addNewWorksheet("MartinsSpreadSheet");
-        mySpreadsheet.copyWorksheet("Tabellenblatt1", "CopiedWorksheet");
-        mySpreadsheet.insertValueIntoCell("Tabellenblatt2", 4, 15, "My name is Martin");
-        String value = mySpreadsheet.receiveValueAtKey("Tabellenblatt2", "E11");
-
-        int valueAsInteger ;
-        try {
-            valueAsInteger = Integer.parseInt(value);
-            valueAsInteger++;
-            value = Integer.toString(valueAsInteger);
-        } catch (NumberFormatException e) {
-            value = "Could not convert item";
-        }
-        mySpreadsheet.insertValueIntoCell("Tabellenblatt2", 5, 11, value);
-
-        mySpreadsheet.update();
-        System.out.println(mySpreadsheet.toString());
-        mySpreadsheet.deleteWorksheet("MartinsSpreadSheet");
-        mySpreadsheet.deleteWorksheet("CopiedWorksheet");
-    }
-*/
 }

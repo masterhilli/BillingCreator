@@ -7,15 +7,16 @@ import java.util.List;
 /**
  * Created by mhillbrand on 2/22/2016.
  */
-public class ProjectSummarySpreadsheetUpdater {
+public class ProjectSummarySpreadsheetExporter extends Spreadsheet{
     private List<TrackedTime> trackedTimesPerProject;
-    private Spreadsheet exportSpreadsheet;
     private int lastPosition = 0;
     private String workSheetName = "sheet 1s";
     private ProjectRowReference rowReferences = new ProjectRowReference();
 
-    public ProjectSummarySpreadsheetUpdater(String googleDriveIdToExportProject, List<TrackedTime> trackedTimesForProject) {
-        exportSpreadsheet = new Spreadsheet(googleDriveIdToExportProject, "2016-01");
+
+    public ProjectSummarySpreadsheetExporter(String googleDriveIdToExportProject, List<TrackedTime> trackedTimesForProject, String workSheetName) {
+        super(googleDriveIdToExportProject, workSheetName);
+        this.workSheetName = workSheetName;
         this.trackedTimesPerProject = trackedTimesForProject;
     }
 
@@ -29,9 +30,8 @@ public class ProjectSummarySpreadsheetUpdater {
         }
         writeTrackedTravelCosts(currentPosition++, sumOfTravelCosts);
         writeSums(currentPosition++, startingPosition);
-        lastPosition = currentPosition+1;
+        lastPosition = currentPosition + 1;
     }
-
 
     private void writeHeading(int currentRow) {
         rowReferences.setProjectNameRow(currentRow);
@@ -43,7 +43,7 @@ public class ProjectSummarySpreadsheetUpdater {
     }
 
     private void writeEntryToColumnByFormatString(int column, int currentRow, String value) {
-        exportSpreadsheet.insertValueIntoCell(workSheetName, column, currentRow, value);
+        insertValueIntoCell(workSheetName, column, currentRow, value);
     }
 
     private void writeTrackedTimePerPerson(int currentRow, TrackedTime timetracked) {
@@ -65,9 +65,9 @@ public class ProjectSummarySpreadsheetUpdater {
 
     private void writeSums(int currentRow, int startingPosition) {
         rowReferences.setSumRow(currentRow);
-        writeEntryToColumnByFormatString(4, currentRow, String.format("=SUM(D%d:D%d)", currentRow-1, startingPosition));
-        writeEntryToColumnByFormatString(5, currentRow, String.format("=SUM(E%d:E%d)", currentRow-1, startingPosition));
-        writeEntryToColumnByFormatString(6, currentRow, String.format("=SUM(F%d:F%d)", currentRow-1, startingPosition));
+        writeEntryToColumnByFormatString(4, currentRow, String.format("=SUM(D%d:D%d)", currentRow - 1, startingPosition));
+        writeEntryToColumnByFormatString(5, currentRow, String.format("=SUM(E%d:E%d)", currentRow - 1, startingPosition));
+        writeEntryToColumnByFormatString(6, currentRow, String.format("=SUM(F%d:F%d)", currentRow - 1, startingPosition));
     }
 
     private void writeUSTCalculationsAndSum(int currentRow) {
