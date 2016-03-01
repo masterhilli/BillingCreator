@@ -1,9 +1,8 @@
-package work.billing.Spreadsheets;
+package work.billing.Export;
 
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeSummary;
 
-import javax.sound.midi.Track;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,7 +16,6 @@ public class ProjectSummarySpreadsheetExporter {
     private TrackedTimeSummary trackedTimeSum;
     private int lastPosition = 0;
     private int posForSumUp = 0;
-    private ProjectRowReference rowReferences = new ProjectRowReference();
     private List<ProjectRowReference> rowsForReferencesPerProject = new ArrayList<>();
 
 
@@ -26,19 +24,19 @@ public class ProjectSummarySpreadsheetExporter {
         this.hourRatePerTeamMember = hourRatePerTeamMember;
     }
 
-    private void WriteProjectToSpreadSheet(List<TrackedTime> trackedTimesPerProject, int startingPosition) {
-        writeHeading(startingPosition++,trackedTimesPerProject);
+    private void WriteProjectToSpreadSheet(List<TrackedTime> trackedTimesPerProject, int startingPosition, ProjectRowReference rowReferences) {
+        writeHeading(startingPosition++,trackedTimesPerProject, rowReferences);
         int currentPosition = startingPosition;
         double sumOfTravelCosts = 0.0;
         for (TrackedTime timetracked : trackedTimesPerProject) {
             writeTrackedTimePerPerson(currentPosition++, timetracked);
         }
-        writeTrackedTravelCosts(currentPosition++, sumOfTravelCosts);
-        writeSums(currentPosition++, startingPosition);
+        writeTrackedTravelCosts(currentPosition++, sumOfTravelCosts, rowReferences);
+        writeSums(currentPosition++, startingPosition, rowReferences);
         lastPosition = currentPosition + 1;
     }
 
-    private void writeHeading(int currentRow, List<TrackedTime> trackedTimesPerProject) {
+    private void writeHeading(int currentRow, List<TrackedTime> trackedTimesPerProject, ProjectRowReference rowReferences) {
         rowReferences.setProjectNameRow(currentRow);
         writeEntryToColumnByFormatString(1, currentRow, getProjectName(trackedTimesPerProject));
         writeEntryToColumnByFormatString(3, currentRow, "Stundensatz");
@@ -64,7 +62,7 @@ public class ProjectSummarySpreadsheetExporter {
         writeUSTCalculationsAndSum(currentRow);
     }
 
-    private void writeTrackedTravelCosts(int currentRow, double sumOfTravelCosts) {
+    private void writeTrackedTravelCosts(int currentRow, double sumOfTravelCosts, ProjectRowReference rowReferences) {
         rowReferences.setTravelCostRow(currentRow);
         writeEntryToColumnByFormatString(2, currentRow, "Reise- und Nächtigungskosten");
         writeEntryToColumnByFormatString(4, currentRow, String.format("%.2f", sumOfTravelCosts));
@@ -72,7 +70,7 @@ public class ProjectSummarySpreadsheetExporter {
         writeUSTCalculationsAndSum(currentRow);
     }
 
-    private void writeSums(int currentRow, int startingPosition) {
+    private void writeSums(int currentRow, int startingPosition, ProjectRowReference rowReferences) {
         rowReferences.setSumRow(currentRow);
         writeEntryToColumnByFormatString(4, currentRow, String.format("=SUM(D%d:D%d)", currentRow - 1, startingPosition));
         writeEntryToColumnByFormatString(5, currentRow, String.format("=SUM(E%d:E%d)", currentRow - 1, startingPosition));
@@ -93,10 +91,6 @@ public class ProjectSummarySpreadsheetExporter {
         if (trackedTimesPerProject.size() >= 1)
             return trackedTimesPerProject.get(0).getProjectName();
         return "";
-    }
-
-    private ProjectRowReference getRowInformationForReferences() {
-        return rowReferences;
     }
 
     public void createBillingSpreadsheet( ) {
@@ -234,8 +228,9 @@ public class ProjectSummarySpreadsheetExporter {
     private int writeProjectsToSpreadsheet(int startPos) {
         for (String projectName : this.trackedTimeSum.getProjectNames()) {
             // TODO: check why we print always the same project name here!
-            WriteProjectToSpreadSheet(this.trackedTimeSum.receiveTrackedTimesPerProject(projectName), startPos);
-            rowsForReferencesPerProject.add(getRowInformationForReferences());
+            ProjectRowReference rowReference = new ProjectRowReference();
+            WriteProjectToSpreadSheet(this.trackedTimeSum.receiveTrackedTimesPerProject(projectName), startPos, rowReference);
+            rowsForReferencesPerProject.add(rowReference);
             listOfSums.add(getLastPosition() - 2);
             startPos = getLastPosition() + 1;
         }
