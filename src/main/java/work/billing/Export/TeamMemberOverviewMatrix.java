@@ -23,7 +23,7 @@ public class TeamMemberOverviewMatrix extends BaseSpreadSheetMatrix {
             putValueToMatrixAt(COL.A.ordinal(), curPos, val);
             putValueToMatrixAt(COL.B.ordinal(), curPos++, teamMember);
         }
-        putValueToMatrixAt(COL.A.ordinal(), curPos, SpreadsheetFormulas.SUM(COL.A.toString(), START_POS, curPos-1));
+        putValueToMatrixAt(COL.A.ordinal(), curPos, SpreadsheetFormulas.SUM(COL.A, START_POS, curPos-1));
         lastPosition = curPos;
     }
 }

@@ -5,8 +5,8 @@ package work.billing.Export;
  */
 public class SpreadsheetFormulas {
 
-    public static String SUM(String col, int fromPos, int toPos) {
-        return String.format("=SUM(%s%d:%s%d)", col, fromPos, col, toPos);
+    public static String SUM(BaseSpreadSheetMatrix.COL col1, int fromPos, int toPos) {
+        return String.format("=SUM(%s%d:%s%d)", col1.toString(), fromPos, col1.toString(), toPos);
     }
 
     public static String SUMIF(String colValToCheck, String colValToSum,
@@ -16,5 +16,22 @@ public class SpreadsheetFormulas {
                 colValToCheck, fromPos, colValToCheck, toPos,
                 valToCheckAgainst, valueToCheckPos,
                 colValToSum, fromPos, colValToSum, toPos);
+    }
+
+    public static String TIMES(String col1, int row1, String col2, int row2) {
+        return String.format("=%s%d*%s%d", col1, row1, col2, row2);
+    }
+
+    public static String PERCENTOF(String col, int row, double percent) {
+        return String.format("=%s%d*%.2f",col, row, percent);
+    }
+
+
+    public static String formatDouble(double value) {
+        return String.format("%.2f", value);
+    }
+
+    public static String ADD(String col1, int row1, String col2, int row2) {
+        return String.format("=%s%d+%s%d", col1, row1, col2, row2);
     }
 }

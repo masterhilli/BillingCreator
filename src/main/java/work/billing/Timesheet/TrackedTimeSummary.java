@@ -28,6 +28,15 @@ public class TrackedTimeSummary {
         return trackedTimesPerProject.keySet().stream().collect(Collectors.toList());
     }
 
+    public HashMap<String, List<TrackedTime>> getProjectTimesMap() {
+        HashMap<String, List<TrackedTime>> retMap = new HashMap<>();
+        for (String project : getProjectNames()) {
+            List<TrackedTime> timesForProject = receiveTrackedTimesPerProject(project);
+            retMap.put(project, timesForProject);
+        }
+        return retMap;
+    }
+
     //@NotNull
     private void addForeignKeyToMap(HashMap<String, List<String>> mapToAddKey, String primaryKey, String foreignKey) {
         if (mapToAddKey.get(primaryKey.toLowerCase()) == null) {
