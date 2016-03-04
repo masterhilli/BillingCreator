@@ -6,7 +6,7 @@ import work.billing.Files.ListSpreadsheets;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Export.ProjectSummarySpreadsheetExporter;
-import work.billing.Export.ProjectsheetToTrackTimeMapper;
+import work.billing.ProjectSpreadSheet.ProjectSpreadsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
@@ -51,7 +51,7 @@ public class AppRunner implements Runnable {
         TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
         for (String key : settings.importFileId) {
             Spreadsheet timeSheet = new Spreadsheet(key, worksheetName);
-            TrackedTime timeTracked = ProjectsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(
+            TrackedTime timeTracked = ProjectSpreadsheetToTrackTimeMapper.createTrackedTimeFromSpreadsheet(
                     timeSheet, worksheetName, settings.getHourRateAsHashMapPerTeamMember());
             try {
                 trackedTimeSum.addTrackedTime(timeTracked);

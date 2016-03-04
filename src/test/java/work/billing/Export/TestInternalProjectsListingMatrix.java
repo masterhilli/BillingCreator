@@ -1,7 +1,6 @@
 package work.billing.Export;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import work.billing.Timesheet.TrackedTime;
@@ -12,6 +11,7 @@ import work.billing.Timesheet.TrackedTimeSummary;
  * Created by mhillbrand on 3/4/2016.
  */
 public class TestInternalProjectsListingMatrix {
+    private static final String PRJ_TEAM_LEAD = "Martin Hillbrand";
     private static TrackedTimeSummary trackedTimeSum;
     private static final String PROJECT_NAME_1 = "MyProject 1";
     private static final String PROJECT_NAME_2 = "MyProject 2";
@@ -50,18 +50,18 @@ public class TestInternalProjectsListingMatrix {
 
     @Test
     public void initializeMatrix_WithStartPos5And3TrackedTimes_ReturnsLastPositionAt28() {
-        InternalProjectsListingMatrix internalPrjMatrixLists = new InternalProjectsListingMatrix(trackedTimeSum);
+        InternalProjectMatrixListCreator internalPrjMatrixLists = new InternalProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
 
-        internalPrjMatrixLists.initializeMatrix(0);
+        internalPrjMatrixLists.initialize(0);
 
-        Assert.assertEquals(28, internalPrjMatrixLists.getLastPos());
+        Assert.assertEquals(28, internalPrjMatrixLists.getLastPosOfProjects());
     }
 
     @Test
     public void getInternalProjectMatrices_With4Projects_ReturnsAll4Projects() {
-        InternalProjectsListingMatrix internalPrjMatrixLists = new InternalProjectsListingMatrix(trackedTimeSum);
+        InternalProjectMatrixListCreator internalPrjMatrixLists = new InternalProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
 
-        internalPrjMatrixLists.initializeMatrix(0);
+        internalPrjMatrixLists.initialize(0);
 
         Assert.assertEquals(4, internalPrjMatrixLists.getInternalProjectMatrices().size());
     }

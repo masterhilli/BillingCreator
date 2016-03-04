@@ -1,5 +1,8 @@
 package work.billing.Export;
 
+import work.billing.Spreadsheets.COL;
+import work.billing.Spreadsheets.SpreadsheetFormulas;
+
 import java.util.List;
 
 /**
@@ -20,10 +23,10 @@ public class TeamMemberOverviewMatrix extends BaseSpreadSheetMatrix {
         for (String teamMember : this.teamMembers) {
             String val = SpreadsheetFormulas.SUMIF(COL.B.toString(), COL.A.toString(),
                                                     fromPos, toPos, COL.B.toString(), curPos);
-            putValueToMatrixAt(COL.A.ordinal(), curPos, val);
-            putValueToMatrixAt(COL.B.ordinal(), curPos++, teamMember);
+            putValueToMatrixAt(COL.A, curPos, val);
+            putValueToMatrixAt(COL.B, curPos++, teamMember);
         }
-        putValueToMatrixAt(COL.A.ordinal(), curPos, SpreadsheetFormulas.SUM(COL.A, START_POS, curPos-1));
+        putValueToMatrixAt(COL.A, curPos, SpreadsheetFormulas.SUM(COL.A, START_POS, curPos-1));
         lastPosition = curPos;
     }
 }

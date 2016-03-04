@@ -4,6 +4,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import work.billing.I18N.I18N;
+import work.billing.Spreadsheets.COL;
 import work.billing.Timesheet.TrackedTime;
 
 import java.util.ArrayList;
@@ -35,11 +37,11 @@ public class TestInternalProjectMatrix {
         int row = 5;
         internalPrjMatrix.putHeadingToMatrix(row);
 
-        Assert.assertEquals(PROJECT_NAME, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.A.ordinal()).get(row));
-        Assert.assertEquals(I18N.HOUR_RATE, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.C.ordinal()).get(row));
-        Assert.assertEquals(I18N.NET, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.D.ordinal()).get(row));
-        Assert.assertEquals(I18N.VAT, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.E.ordinal()).get(row));
-        Assert.assertEquals(I18N.PRE_TAX, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.F.ordinal()).get(row));
+        Assert.assertEquals(PROJECT_NAME, internalPrjMatrix.cellMatrix.get(COL.A.ordinal()).get(row));
+        Assert.assertEquals(I18N.HOUR_RATE, internalPrjMatrix.cellMatrix.get(COL.C.ordinal()).get(row));
+        Assert.assertEquals(I18N.NET, internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
+        Assert.assertEquals(I18N.VAT, internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(row));
+        Assert.assertEquals(I18N.PRE_TAX, internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(row));
         Assert.assertEquals(row, internalPrjMatrix.getHeadingRow());
     }
 
@@ -54,8 +56,8 @@ public class TestInternalProjectMatrix {
     public void PutVATtoMatrix_WithStartPos5_ReturnsCorrectVATANDSUMField() {
         internalPrjMatrix.putVATtoMatrix(5);
 
-        Assert.assertEquals("=D5*0.20", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.E.ordinal()).get(5));
-        Assert.assertEquals("=D5+E5", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.F.ordinal()).get(5));
+        Assert.assertEquals("=D5*0.20", internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(5));
+        Assert.assertEquals("=D5+E5", internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(5));
     }
 
     @Test
@@ -63,9 +65,9 @@ public class TestInternalProjectMatrix {
         int row = 5;
         internalPrjMatrix.putSumLineToMatrix(row, row-3);
 
-        Assert.assertEquals("=SUM(D2:D4)", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.D.ordinal()).get(row));
-        Assert.assertEquals("=SUM(E2:E4)", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.E.ordinal()).get(row));
-        Assert.assertEquals("=SUM(F2:F4)", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.F.ordinal()).get(row));
+        Assert.assertEquals("=SUM(D2:D4)", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
+        Assert.assertEquals("=SUM(E2:E4)", internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(row));
+        Assert.assertEquals("=SUM(F2:F4)", internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(row));
     }
 
     @Test
@@ -73,8 +75,8 @@ public class TestInternalProjectMatrix {
         int row = 5;
         internalPrjMatrix.putTravelCostsToMatrix(row, 22.7);
 
-        Assert.assertEquals(I18N.TRAVEL_COSTS, internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.B.ordinal()).get(row));
-        Assert.assertEquals("22.70", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.D.ordinal()).get(row));
+        Assert.assertEquals(I18N.TRAVEL_COSTS, internalPrjMatrix.cellMatrix.get(COL.B.ordinal()).get(row));
+        Assert.assertEquals("22.70", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
     }
 
     @Test
@@ -82,10 +84,10 @@ public class TestInternalProjectMatrix {
         int row = 5;
         internalPrjMatrix.putTimeForTeamMemberToMatrix(row, trackedTimes.get(0));
 
-        Assert.assertEquals("5.50", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.A.ordinal()).get(row));
-        Assert.assertEquals("Martin Hillbrand", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.B.ordinal()).get(row));
-        Assert.assertEquals("90", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.C.ordinal()).get(row));
-        Assert.assertEquals("=A5*C5", internalPrjMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.D.ordinal()).get(row));
+        Assert.assertEquals("5.50", internalPrjMatrix.cellMatrix.get(COL.A.ordinal()).get(row));
+        Assert.assertEquals("Martin Hillbrand", internalPrjMatrix.cellMatrix.get(COL.B.ordinal()).get(row));
+        Assert.assertEquals("90", internalPrjMatrix.cellMatrix.get(COL.C.ordinal()).get(row));
+        Assert.assertEquals("=A5*C5", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
     }
 
     @Test
@@ -114,7 +116,7 @@ public class TestInternalProjectMatrix {
         internalPrjMatrix.initializeMatrix(5);
 
         HashMap<Integer, HashMap<Integer, String>> expected = new HashMap<>();
-        int colB = BaseSpreadSheetMatrix.COL.B.ordinal();
+        int colB = COL.B.ordinal();
         expected.put(colB, new HashMap<>());
         expected.get(colB).put(6, trackedTimes.get(0).getTeamMember());
         expected.get(colB).put(7, trackedTimes.get(1).getTeamMember());

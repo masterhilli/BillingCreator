@@ -1,11 +1,11 @@
-package work.billing.Export;
+package work.billing.Spreadsheets;
 
 /**
  * Created by mhillbrand on 3/3/2016.
  */
 public class SpreadsheetFormulas {
 
-    public static String SUM(BaseSpreadSheetMatrix.COL col1, int fromPos, int toPos) {
+    public static String SUM(COL col1, int fromPos, int toPos) {
         return String.format("=SUM(%s%d:%s%d)", col1.toString(), fromPos, col1.toString(), toPos);
     }
 
@@ -18,8 +18,8 @@ public class SpreadsheetFormulas {
                 colValToSum, fromPos, colValToSum, toPos);
     }
 
-    public static String TIMES(String col1, int row1, String col2, int row2) {
-        return String.format("=%s%d*%s%d", col1, row1, col2, row2);
+    public static String TIMES(COL col1, int row1, COL col2, int row2) {
+        return String.format("=%s%d*%s%d", col1.toString(), row1, col2.toString(), row2);
     }
 
     public static String PERCENT_OF(String col, int row, double percent) {
@@ -33,5 +33,9 @@ public class SpreadsheetFormulas {
 
     public static String ADD(String col1, int row1, String col2, int row2) {
         return String.format("=%s%d+%s%d", col1, row1, col2, row2);
+    }
+
+    public static String ROUND(COL col, int row) {
+        return String.format("=ROUND(%s%d,2)", col.toString(), row);
     }
 }
