@@ -22,7 +22,7 @@ public class SpreadsheetFormulas {
         return String.format("=%s%d*%s%d", col1, row1, col2, row2);
     }
 
-    public static String PERCENTOF(String col, int row, double percent) {
+    public static String PERCENT_OF(String col, int row, double percent) {
         return String.format("=%s%d*%.2f",col, row, percent);
     }
 

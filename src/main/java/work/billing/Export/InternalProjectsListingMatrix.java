@@ -13,13 +13,17 @@ import java.util.List;
  */
 public class InternalProjectsListingMatrix {
     private final HashMap<String, List<TrackedTime>> timesPerProject;
+
+    public List<InternalProjectMatrix> getInternalProjectMatrices() {
+        return internalProjectMatrices;
+    }
+
     private List<InternalProjectMatrix> internalProjectMatrices;
+    private int lastPos = 0;
 
     public int getLastPos() {
         return lastPos;
     }
-
-    private int lastPos = 0;
 
     public InternalProjectsListingMatrix(TrackedTimeSummary trackedTimeSum) {
         this.timesPerProject = trackedTimeSum.getProjectTimesMap();
@@ -31,8 +35,7 @@ public class InternalProjectsListingMatrix {
             InternalProjectMatrix prjMatrix = new InternalProjectMatrix(project, timesPerProject.get(project));
             prjMatrix.initializeMatrix(startPos);
             this.internalProjectMatrices.add(prjMatrix);
-            // rowsForReferencesPerProject.add(rowReference); no longer needed; is part of InternalProjectMatrix
-            startPos = startPos+2;
+            startPos = prjMatrix.getSumRow()+2;
         }
         lastPos = startPos;
     }

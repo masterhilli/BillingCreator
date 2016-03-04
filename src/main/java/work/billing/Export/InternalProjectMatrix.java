@@ -22,16 +22,16 @@ public class InternalProjectMatrix extends BaseSpreadSheetMatrix {
         this.times = times;
     }
 
-    public void initializeMatrix(int startPos) {
-        putHeadingToMatrix(startPos++);
-        int toPos = startPos;
+    public void initializeMatrix(int currentPos ) {
+        putHeadingToMatrix(currentPos++);
+        int fromPos = currentPos;
         double sumOfTravelCosts = 0.0;
         for (TrackedTime timeTracked : times) {
-            putTimeForTeamMemberToMatrix(startPos++, timeTracked);
+            putTimeForTeamMemberToMatrix(currentPos++, timeTracked);
             sumOfTravelCosts += timeTracked.getTravelCosts();
         }
-        putTravelCostsToMatrix(startPos++, sumOfTravelCosts);
-        putSumlineToMatrix(toPos, startPos);
+        putTravelCostsToMatrix(currentPos++, sumOfTravelCosts);
+        putSumLineToMatrix(currentPos, fromPos);
     }
 
     protected void putHeadingToMatrix(int currentRow) {
@@ -43,30 +43,30 @@ public class InternalProjectMatrix extends BaseSpreadSheetMatrix {
         putValueToMatrixAt(COL.F.ordinal(), currentRow, I18N.PRE_TAX);
     }
 
-    private void putTimeForTeamMemberToMatrix(int currentRow, TrackedTime timetracked) {
+    protected void putTimeForTeamMemberToMatrix(int currentRow, TrackedTime timetracked) {
         putValueToMatrixAt(COL.A.ordinal(), currentRow, SpreadsheetFormulas.formatDouble(timetracked.getHours()));
         putValueToMatrixAt(COL.B.ordinal(), currentRow, timetracked.getTeamMember());
         putValueToMatrixAt(COL.C.ordinal(), currentRow, Integer.toString(timetracked.getHourRate()));
         putValueToMatrixAt(COL.D.ordinal(), currentRow,
                 SpreadsheetFormulas.TIMES(COL.A.toString(), currentRow, COL.C.toString(), currentRow));
 
-        putUSTtoMatrix(currentRow);
+        putVATtoMatrix(currentRow);
     }
 
-    private void putUSTtoMatrix(int currentRow) {
-        putValueToMatrixAt(COL.E.ordinal(), currentRow, SpreadsheetFormulas.PERCENTOF(COL.D.toString(), currentRow, 0.2));
+    protected void putVATtoMatrix(int currentRow) {
+        putValueToMatrixAt(COL.E.ordinal(), currentRow, SpreadsheetFormulas.PERCENT_OF(COL.D.toString(), currentRow, 0.2));
         putValueToMatrixAt(COL.F.ordinal(), currentRow,
                 SpreadsheetFormulas.ADD(COL.D.toString(), currentRow, COL.E.toString(), currentRow));
     }
 
-    private void putTravelCostsToMatrix(int currentRow, double sumOfTravelCosts) {
+    protected void putTravelCostsToMatrix(int currentRow, double sumOfTravelCosts) {
         putValueToMatrixAt(COL.B.ordinal(), currentRow, I18N.TRAVEL_COSTS);
         putValueToMatrixAt(COL.D.ordinal(), currentRow, SpreadsheetFormulas.formatDouble(sumOfTravelCosts));
 
-        putUSTtoMatrix(currentRow);
+        putVATtoMatrix(currentRow);
     }
 
-    private void putSumlineToMatrix(int currentRow, int fromPos) {
+    protected void putSumLineToMatrix(int currentRow, int fromPos) {
         this.sumRow=currentRow;
         putValueToMatrixAt(COL.D.ordinal(), currentRow,
                 SpreadsheetFormulas.SUM(COL.D, fromPos, currentRow-1 ));
