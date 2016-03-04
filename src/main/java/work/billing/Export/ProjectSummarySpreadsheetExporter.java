@@ -13,7 +13,7 @@ public class ProjectSummarySpreadsheetExporter extends BaseSpreadSheetMatrix {
     private int lastPosition = 0;
     private int posForSumUp = 0;
     private TrackedTimeSummary trackedTimeSum;
-    private AbstractList<ProjectRowReference> rowsForReferencesPerProject;
+    private List<ProjectRowReference> rowsForReferencesPerProject;
 
 
     public ProjectSummarySpreadsheetExporter(TrackedTimeSummary trackedTimeSum, AbstractMap<String, Integer> hourRatePerTeamMember) {
@@ -22,7 +22,7 @@ public class ProjectSummarySpreadsheetExporter extends BaseSpreadSheetMatrix {
     }
 
     public void createBillingSpreadsheet() {
-        AbstractList<String> teamMembers = new ArrayList<>();
+        List<String> teamMembers = new ArrayList<>();
         teamMembers.addAll(this.hourRatePerTeamMember.keySet());
 
         //**************************** SECTION TO CREATE INTERNAL PRJ PRESENTATION ***********************
@@ -143,10 +143,10 @@ public class ProjectSummarySpreadsheetExporter extends BaseSpreadSheetMatrix {
     private void writeFirstLine(int startPos) {
         putValueToMatrixAt(1, startPos, "Anz.");
         putValueToMatrixAt(2, startPos, "Beschreibung");
-        putValueToMatrixAt(3, startPos, I18N.NETTO);
+        putValueToMatrixAt(3, startPos, I18N.NET);
         putValueToMatrixAt(4, startPos, "Steuersatz");
-        putValueToMatrixAt(5, startPos, I18N.UST);
-        putValueToMatrixAt(6, startPos, I18N.BRUTTO);
+        putValueToMatrixAt(5, startPos, I18N.VAT);
+        putValueToMatrixAt(6, startPos, I18N.PRE_TAX);
     }
 
 

@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.AbstractList;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TestTeamMemberOverview {
     private TeamMemberOverviewMatrix teamMemberMatrix;
-    private AbstractList<String> teamMembers;
+    private List<String> teamMembers;
     private final int fromPos = 1;
     private final int toPos = 3;
     @Before
@@ -41,7 +41,7 @@ public class TestTeamMemberOverview {
     @Test
     public void putTeamMembersAndTimesOnMatrix_With3TeamMembers_ReturnsAll3TeamMembers() {
         teamMemberMatrix.putTeamMembersAndTimesToMatrix(fromPos,toPos);
-        AbstractList<String> actualTeamMembers = new ArrayList<>();
+        List<String> actualTeamMembers = new ArrayList<>();
         for (int i = 1; i <= toPos; i++) {
             actualTeamMembers.add(this.teamMemberMatrix.cellMatrix.get(BaseSpreadSheetMatrix.COL.B.ordinal()).get(i));
         }

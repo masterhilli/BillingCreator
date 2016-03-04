@@ -1,14 +1,24 @@
 package work.billing.Export;
 
+import java.util.ResourceBundle;
+
 /**
  * Created by mhillbrand on 3/3/2016.
  */
 public class I18N {
-    public static final String HOUR_RATE    = "Stundensatz";
-    public static final String NETTO        = "Netto";
-    public static final String UST          = "UST";
-    public static final String BRUTTO       = "Brutto";
-    public static final String TRAVEL_COSTS = "Reise- und Nächtigungskosten";
-    public static final String SUM_AMOUNT   = "Gesamtbetrag";
-    public static final String PERCENT20    = "20%";
+    private static ResourceBundle i18nBundle = null;
+
+    public static ResourceBundle getBundle() {
+        if (i18nBundle == null) {
+            i18nBundle = ResourceBundle.getBundle("i18n/ger");
+        }
+        return i18nBundle;
+    }
+    public static final String HOUR_RATE    = getBundle().getString("HOUR_RATE");
+    public static final String NET = getBundle().getString("NET");
+    public static final String VAT = getBundle().getString("VAT");
+    public static final String PRE_TAX       = getBundle().getString("PRE_TAX");
+    public static final String TRAVEL_COSTS = getBundle().getString("TRAVEL_COSTS");
+    public static final String SUM_AMOUNT   = getBundle().getString("SUM_AMOUNT");
+    public static final String PERCENT20    = getBundle().getString("PERCENT20");
 }

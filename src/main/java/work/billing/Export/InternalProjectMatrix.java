@@ -1,6 +1,5 @@
 package work.billing.Export;
 
-import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 
 import java.util.List;
@@ -27,21 +26,21 @@ public class InternalProjectMatrix extends BaseSpreadSheetMatrix {
         putHeadingToMatrix(startPos++);
         int toPos = startPos;
         double sumOfTravelCosts = 0.0;
-        for (TrackedTime timetracked : times) {
-            putTimeForTeamMemberToMatrix(startPos++, timetracked);
-            sumOfTravelCosts += timetracked.getTravelCosts();
+        for (TrackedTime timeTracked : times) {
+            putTimeForTeamMemberToMatrix(startPos++, timeTracked);
+            sumOfTravelCosts += timeTracked.getTravelCosts();
         }
         putTravelCostsToMatrix(startPos++, sumOfTravelCosts);
         putSumlineToMatrix(toPos, startPos);
     }
 
-    private void putHeadingToMatrix(int currentRow) {
+    protected void putHeadingToMatrix(int currentRow) {
         this.headingRow = currentRow;
         putValueToMatrixAt(COL.A.ordinal(), currentRow, projectName);
         putValueToMatrixAt(COL.C.ordinal(), currentRow, I18N.HOUR_RATE);
-        putValueToMatrixAt(COL.D.ordinal(), currentRow, I18N.NETTO);
-        putValueToMatrixAt(COL.E.ordinal(), currentRow, I18N.UST);
-        putValueToMatrixAt(COL.F.ordinal(), currentRow, I18N.BRUTTO);
+        putValueToMatrixAt(COL.D.ordinal(), currentRow, I18N.NET);
+        putValueToMatrixAt(COL.E.ordinal(), currentRow, I18N.VAT);
+        putValueToMatrixAt(COL.F.ordinal(), currentRow, I18N.PRE_TAX);
     }
 
     private void putTimeForTeamMemberToMatrix(int currentRow, TrackedTime timetracked) {

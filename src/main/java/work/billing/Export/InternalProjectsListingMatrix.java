@@ -3,7 +3,7 @@ package work.billing.Export;
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeSummary;
 
-import java.util.AbstractList;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class InternalProjectsListingMatrix {
     private final HashMap<String, List<TrackedTime>> timesPerProject;
-    private AbstractList<InternalProjectMatrix> internalProjectMatrices;
+    private List<InternalProjectMatrix> internalProjectMatrices;
 
     public int getLastPos() {
         return lastPos;
@@ -37,7 +37,7 @@ public class InternalProjectsListingMatrix {
         lastPos = startPos;
     }
 
-    public AbstractList<ProjectRowReference> getRowReferences() {
+    public List<ProjectRowReference> getRowReferences() {
         return new ArrayList<>(); // TODO: remove that
     }
 }

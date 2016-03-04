@@ -1,17 +1,17 @@
 package work.billing.Export;
 
-import java.util.AbstractList;
+import java.util.List;
 
 /**
  * Created by mhillbrand on 3/3/2016.
  * Holds the first lines, where the sum of all effort is hold for each team member and overall
  */
 public class TeamMemberOverviewMatrix extends BaseSpreadSheetMatrix {
-    public AbstractList<String> teamMembers;
+    public List<String> teamMembers;
     protected int lastPosition = 0;
     private final int START_POS = 1;
 
-    public TeamMemberOverviewMatrix(AbstractList<String> teamMembers) {
+    public TeamMemberOverviewMatrix(List<String> teamMembers) {
         this.teamMembers = teamMembers;
     }
 
