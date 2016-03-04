@@ -1,5 +1,7 @@
-package work.billing.Export;
+package work.billing.Cache.Internal;
 
+import work.billing.Cache.BaseSpreadSheetMatrix;
+import work.billing.Cache.ProjectPositions;
 import work.billing.I18N.I18N;
 import work.billing.Spreadsheets.COL;
 import work.billing.Spreadsheets.SpreadsheetFormulas;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by mhillbrand on 3/3/2016.
  */
-public class InternalProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPositions {
+public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPositions {
 
     private final String projectName;
     private final List<TrackedTime> times;
@@ -20,7 +22,7 @@ public class InternalProjectMatrix extends BaseSpreadSheetMatrix implements Proj
     public int getSumRow() { return sumRow; }
     public int getTravelCostRow() { return sumRow-1; }
 
-    public InternalProjectMatrix(String projectName, List<TrackedTime> times) {
+    public ProjectMatrix(String projectName, List<TrackedTime> times) {
         this.projectName = projectName;
         this.times = times;
     }

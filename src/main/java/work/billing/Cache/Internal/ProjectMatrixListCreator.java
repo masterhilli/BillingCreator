@@ -1,8 +1,5 @@
-package work.billing.Export;
+package work.billing.Cache.Internal;
 
-import work.billing.I18N.I18N;
-import work.billing.Spreadsheets.COL;
-import work.billing.Spreadsheets.SpreadsheetFormulas;
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeSummary;
 
@@ -13,23 +10,23 @@ import java.util.HashMap;
 /**
  * Created by mhillbrand on 3/3/2016.
  */
-public class InternalProjectMatrixListCreator {
+public class ProjectMatrixListCreator {
     private final HashMap<String, List<TrackedTime>> timesPerProject;
-    private List<InternalProjectMatrix> internalProjectMatrices;
-    private InternalProjectSummary prjSummary;
+    private List<ProjectMatrix> internalProjectMatrices;
+    private ProjectSummary prjSummary;
 
     private int lastPosOfProjects = 0;
     private int firstPos = 0;
 
-    public List<? extends ProjectPositions> getInternalProjectMatrices() { return internalProjectMatrices;}
+    public List<ProjectMatrix> getProjectMatrices() { return internalProjectMatrices;}
     public int getLastPosOfProjects() {
         return lastPosOfProjects;
     }
     public int getFirstPos() { return firstPos; }
-    public InternalProjectSummary getPrjSummary() {return prjSummary;}
+    public ProjectSummary getPrjSummary() {return prjSummary;}
 
-    public InternalProjectMatrixListCreator(TrackedTimeSummary trackedTimeSum, String projectLeadName) {
-        prjSummary = new InternalProjectSummary(projectLeadName);
+    public ProjectMatrixListCreator(TrackedTimeSummary trackedTimeSum, String projectLeadName) {
+        prjSummary = new ProjectSummary(projectLeadName);
         this.timesPerProject = trackedTimeSum.getProjectTimesMap();
         this.internalProjectMatrices = new ArrayList<>();
     }
@@ -37,7 +34,7 @@ public class InternalProjectMatrixListCreator {
     public void initialize(int startPos) {
         firstPos = startPos;
         for (String project : timesPerProject.keySet()) {
-            InternalProjectMatrix prjMatrix = new InternalProjectMatrix(project, timesPerProject.get(project));
+            ProjectMatrix prjMatrix = new ProjectMatrix(project, timesPerProject.get(project));
             prjMatrix.initializeMatrix(startPos);
             this.internalProjectMatrices.add(prjMatrix);
             startPos = prjMatrix.getSumRow()+2;

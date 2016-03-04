@@ -1,8 +1,7 @@
-package work.billing.Export;
+package work.billing.Cache;
 
-import work.billing.I18N.I18N;
-import work.billing.Spreadsheets.COL;
-import work.billing.Spreadsheets.SpreadsheetFormulas;
+import work.billing.Cache.Internal.ProjectMatrixListCreator;
+import work.billing.Cache.Team.TeamMemberOverviewMatrix;
 import work.billing.Timesheet.TrackedTimeSummary;
 
 import java.util.*;
@@ -10,28 +9,27 @@ import java.util.*;
 /**
  * Created by mhillbrand on 2/22/2016.
  */
-public class ProjectSummarySpreadsheetExporter extends BaseSpreadSheetMatrix {
+public class MonthlyReportCache {
 
     public static final String PROJECT_LEAD_NAME = "Felix Schwenk";
     private AbstractMap<String, Integer> hourRatePerTeamMember = new HashMap<>();
-    private int lastPosition = 0;
-    private int posForSumUp = 0;
     private TrackedTimeSummary trackedTimeSum;
+    private List<BaseSpreadSheetMatrix> spreadSheetMatrixItems;
 
 
-    public ProjectSummarySpreadsheetExporter(TrackedTimeSummary trackedTimeSum, AbstractMap<String, Integer> hourRatePerTeamMember) {
+    public MonthlyReportCache(TrackedTimeSummary trackedTimeSum, AbstractMap<String, Integer> hourRatePerTeamMember) {
         this.trackedTimeSum = trackedTimeSum;
         this.hourRatePerTeamMember = hourRatePerTeamMember;
+        this.spreadSheetMatrixItems = new ArrayList<>();
     }
 
-    public void createBillingSpreadsheet() {
+    public void initializeCache() {
         List<String> teamMembers = new ArrayList<>();
         teamMembers.addAll(this.hourRatePerTeamMember.keySet());
-
         //**************************** SECTION TO CREATE INTERNAL PRJ PRESENTATION ***********************
         int startPosInternalProjects = teamMembers.size()+2;
 
-        InternalProjectMatrixListCreator internalPrjMatrix = new InternalProjectMatrixListCreator(trackedTimeSum, PROJECT_LEAD_NAME);
+        ProjectMatrixListCreator internalPrjMatrix = new ProjectMatrixListCreator(trackedTimeSum, PROJECT_LEAD_NAME);
         internalPrjMatrix.initialize(startPosInternalProjects);
         //************************************************************************************************
         //************************** SECTION TO CREATE TEAM MEMBER OVERVIEW ******************************
@@ -40,14 +38,22 @@ public class ProjectSummarySpreadsheetExporter extends BaseSpreadSheetMatrix {
         teamMemberMatrix.putTeamMembersAndTimesToMatrix(startPosInternalProjects, internalPrjMatrix.getLastPosOfProjects());
         //************************************************************************************************
         //************************** SECTION TO CREATE BILLING PRJ SUMMARY *******************************
-        BillingProjectMatrixListCreator billingProjects = new BillingProjectMatrixListCreator(
-                internalPrjMatrix.getInternalProjectMatrices(),
+        work.billing.Cache.Billing.ProjectMatrixListCreator billingProjects = new work.billing.Cache.Billing.ProjectMatrixListCreator(
+                internalPrjMatrix.getProjectMatrices(),
                 internalPrjMatrix.getFirstPos(),
                 internalPrjMatrix.getLastPosOfProjects());
         billingProjects.initialize(internalPrjMatrix.getPrjSummary().getLastPos()+2);
 
         //************************************************************************************************
+        internalPrjMatrix.getPrjSummary().initializeFieldForOverallSummary(billingProjects.getProjectMatrices());
+        spreadSheetMatrixItems.add(teamMemberMatrix);
+        spreadSheetMatrixItems.add(internalPrjMatrix.getPrjSummary());
+        spreadSheetMatrixItems.addAll(internalPrjMatrix.getProjectMatrices());
+        spreadSheetMatrixItems.addAll(billingProjects.getProjectMatrices());
+        spreadSheetMatrixItems.add(billingProjects.getPrjSummary());
+    }
 
-        internalPrjMatrix.getPrjSummary().initializeFieldForOverallSummary(billingProjects.getBillingProjectsPositions());
+    public List<BaseSpreadSheetMatrix> getSpreadSheetMatrixList() {
+        return spreadSheetMatrixItems;
     }
 }

@@ -1,4 +1,4 @@
-package work.billing.Export;
+package work.billing.Cache.Internal;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -50,7 +50,7 @@ public class TestInternalProjectsListingMatrix {
 
     @Test
     public void initializeMatrix_WithStartPos5And3TrackedTimes_ReturnsLastPositionAt28() {
-        InternalProjectMatrixListCreator internalPrjMatrixLists = new InternalProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
+        ProjectMatrixListCreator internalPrjMatrixLists = new ProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
 
         internalPrjMatrixLists.initialize(0);
 
@@ -59,10 +59,10 @@ public class TestInternalProjectsListingMatrix {
 
     @Test
     public void getInternalProjectMatrices_With4Projects_ReturnsAll4Projects() {
-        InternalProjectMatrixListCreator internalPrjMatrixLists = new InternalProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
+        ProjectMatrixListCreator internalPrjMatrixLists = new ProjectMatrixListCreator(trackedTimeSum, PRJ_TEAM_LEAD);
 
         internalPrjMatrixLists.initialize(0);
 
-        Assert.assertEquals(4, internalPrjMatrixLists.getInternalProjectMatrices().size());
+        Assert.assertEquals(4, internalPrjMatrixLists.getProjectMatrices().size());
     }
 }

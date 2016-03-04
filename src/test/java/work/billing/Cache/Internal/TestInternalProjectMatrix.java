@@ -1,4 +1,4 @@
-package work.billing.Export;
+package work.billing.Cache.Internal;
 
 import junit.framework.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by mhillbrand on 3/4/2016.
  */
 public class TestInternalProjectMatrix {
-    private InternalProjectMatrix internalPrjMatrix;
+    private ProjectMatrix internalPrjMatrix;
     private static List<TrackedTime> trackedTimes;
     public static final String PROJECT_NAME = "TestName";
 
@@ -29,7 +29,7 @@ public class TestInternalProjectMatrix {
     }
     @Before
     public void Setup() {
-        internalPrjMatrix = new InternalProjectMatrix(PROJECT_NAME, trackedTimes);
+        internalPrjMatrix = new ProjectMatrix(PROJECT_NAME, trackedTimes);
     }
 
     @Test

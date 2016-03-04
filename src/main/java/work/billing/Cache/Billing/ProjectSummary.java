@@ -1,8 +1,9 @@
-package work.billing.Export;
+package work.billing.Cache.Billing;
 
+import work.billing.Cache.BaseSpreadSheetMatrix;
+import work.billing.Cache.ProjectPositions;
 import work.billing.I18N.I18N;
 import work.billing.Spreadsheets.COL;
-import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Spreadsheets.SpreadsheetFormulas;
 
 import java.util.List;
@@ -10,12 +11,12 @@ import java.util.List;
 /**
  * Created by mhillbrand on 3/4/2016.
  */
-public class BillingProjectSummary extends BaseSpreadSheetMatrix{
+public class ProjectSummary extends BaseSpreadSheetMatrix {
     private final List<? extends ProjectPositions> billingProjectMatrices;
     private int firstRowOfInternalPrjects = 0;
     private int lastRowOfInternalPrjects = 0;
 
-    public BillingProjectSummary(List<BillingProjectMatrix> billingProjectMatrices, int firstRow, int lastRow) {
+    public ProjectSummary(List<ProjectMatrix> billingProjectMatrices, int firstRow, int lastRow) {
         this.billingProjectMatrices = billingProjectMatrices;
         this.firstRowOfInternalPrjects = firstRow;
         this.lastRowOfInternalPrjects = lastRow;

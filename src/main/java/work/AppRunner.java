@@ -1,11 +1,13 @@
 package work;
 
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.google.api.services.drive.model.FileList;
+import work.billing.Cache.BaseSpreadSheetMatrix;
 import work.billing.Files.ListSpreadsheets;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
-import work.billing.Export.ProjectSummarySpreadsheetExporter;
+import work.billing.Cache.MonthlyReportCache;
 import work.billing.ProjectSpreadSheet.ProjectSpreadsheetToTrackTimeMapper;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
@@ -13,11 +15,13 @@ import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
 import work.billing.Timesheet.TrackedTimeSummary;
 
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AppRunner implements Runnable {
+
+    private final BaseSpreadSheetMatrix cachedMatrix;
+    private final Spreadsheet spreadSheet;
+    private final String workSheetName;
 
     public static void main(String[] args) throws IOException {
         if (args.length > 0) {
@@ -60,15 +64,16 @@ public class AppRunner implements Runnable {
             }
         }
 
-        ProjectSummarySpreadsheetExporter matrixCreator = new ProjectSummarySpreadsheetExporter(trackedTimeSum,settings.getHourRateAsHashMapPerTeamMember());
+        MonthlyReportCache reportCache = new MonthlyReportCache(trackedTimeSum,settings.getHourRateAsHashMapPerTeamMember());
 
-        matrixCreator.createBillingSpreadsheet();
+        reportCache.initializeCache();
+
 
         Spreadsheet spreadsheet = new Spreadsheet(settings.exportFileId, worksheetName);
 
         List<Thread> threads = new ArrayList<>();
-        for (Integer column : matrixCreator.cellMatrix.keySet()) {
-            Thread t = new Thread(new AppRunner(column, matrixCreator.cellMatrix.get(column), spreadsheet, worksheetName));
+        for (BaseSpreadSheetMatrix cachedMatrix : reportCache.getSpreadSheetMatrixList()) {
+            Thread t = new Thread(new AppRunner(cachedMatrix, spreadsheet, worksheetName));
             t.start();
             threads.add(t);
 
@@ -93,23 +98,20 @@ public class AppRunner implements Runnable {
         System.out.println("Elapsed time: " + elapsedTime + "s");
     }
 
-    public AppRunner(Integer col, AbstractMap<Integer, String> rows, Spreadsheet spreadsheet, String worksheetName) {
-        this.column = col;
-        this.rows = rows;
-        this.spreadsheet = spreadsheet;
-        this.worksheetName = worksheetName;
+    public AppRunner (BaseSpreadSheetMatrix cachedMatrix, Spreadsheet spreadsheet, String worksheetName) {
+        this.cachedMatrix = cachedMatrix;
+        this.spreadSheet = spreadsheet;
+        this.workSheetName = worksheetName;
     }
-    private Integer column;
-    private AbstractMap<Integer, String> rows;
-    private Spreadsheet spreadsheet;
-    private String worksheetName;
 
     @Override
     public void run() {
-        for (Integer row : rows.keySet()) {
-            spreadsheet.insertValueIntoCell(worksheetName, column, row, rows.get(row));
+        for (Integer col : cachedMatrix.cellMatrix.keySet()) {
+            AbstractMap<Integer, String> rows = cachedMatrix.cellMatrix.get(col);
+            for (Integer row : rows.keySet()) {
+                spreadSheet.insertValueIntoCell(this.workSheetName, col, row, rows.get(row));
+            }
         }
-        System.out.println("\nCOLUMN finished [" + column.toString() + "]");
     }
 
     private static void TestFileIdFetch(String arg) throws IOException {

@@ -1,5 +1,7 @@
-package work.billing.Export;
+package work.billing.Cache.Billing;
 
+import work.billing.Cache.BaseSpreadSheetMatrix;
+import work.billing.Cache.ProjectPositions;
 import work.billing.I18N.I18N;
 import work.billing.Spreadsheets.COL;
 import work.billing.Spreadsheets.SpreadsheetFormulas;
@@ -7,7 +9,7 @@ import work.billing.Spreadsheets.SpreadsheetFormulas;
 /**
  * Created by mhillbrand on 3/4/2016.
  */
-public class BillingProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPositions{
+public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPositions {
     private final ProjectPositions internalPrjPosition;
     private int sumRow = 0;
     private int headingRow = 0;
@@ -21,7 +23,7 @@ public class BillingProjectMatrix extends BaseSpreadSheetMatrix implements Proje
     @Override
     public int getTravelCostRow() { return sumRow-1; }
 
-    public BillingProjectMatrix(ProjectPositions internalPrjPosition) {
+    public ProjectMatrix(ProjectPositions internalPrjPosition) {
         this.internalPrjPosition = internalPrjPosition;
     }
 

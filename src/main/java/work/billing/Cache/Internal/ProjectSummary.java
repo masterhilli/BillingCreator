@@ -1,5 +1,7 @@
-package work.billing.Export;
+package work.billing.Cache.Internal;
 
+import work.billing.Cache.BaseSpreadSheetMatrix;
+import work.billing.Cache.ProjectPositions;
 import work.billing.I18N.I18N;
 import work.billing.Spreadsheets.COL;
 import work.billing.Spreadsheets.SpreadsheetFormulas;
@@ -9,7 +11,7 @@ import java.util.List;
 /**
  * Created by mhillbrand on 3/4/2016.
  */
-public class InternalProjectSummary extends BaseSpreadSheetMatrix{
+public class ProjectSummary extends BaseSpreadSheetMatrix {
 
     private final String prjLeadName;
     private int lastPos;
@@ -17,7 +19,7 @@ public class InternalProjectSummary extends BaseSpreadSheetMatrix{
 
     public int getLastPos() { return lastPos; }
 
-    public InternalProjectSummary(String prjLeadName) {
+    public ProjectSummary(String prjLeadName) {
         this.prjLeadName = prjLeadName;
     }
 
