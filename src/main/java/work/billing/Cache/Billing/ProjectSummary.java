@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class ProjectSummary extends BaseSpreadSheetMatrix {
     private final List<? extends ProjectPositions> billingProjectMatrices;
-    private int firstRowOfInternalPrjects = 0;
-    private int lastRowOfInternalPrjects = 0;
+    private int firstRowOfInternalProjects = 0;
+    private int lastRowOfInternalProjects = 0;
 
-    public ProjectSummary(List<ProjectMatrix> billingProjectMatrices, int firstRow, int lastRow) {
+    public ProjectSummary(List<? extends ProjectPositions> billingProjectMatrices, int firstRow, int lastRow) {
         this.billingProjectMatrices = billingProjectMatrices;
-        this.firstRowOfInternalPrjects = firstRow;
-        this.lastRowOfInternalPrjects = lastRow;
+        this.firstRowOfInternalProjects = firstRow;
+        this.lastRowOfInternalProjects = lastRow;
     }
 
     public void initialize(int currentRow) {
@@ -30,7 +30,7 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
         putCheckIfValuesAreCorrect(currentRow);
     }
 
-    private void putHeadingForShortSummaryOfBillingProject(int currentPos) {
+    protected void putHeadingForShortSummaryOfBillingProject(int currentPos) {
         putValueToMatrixAt(COL.B, currentPos, I18N.DESCRIPTION);
         putValueToMatrixAt(COL.C, currentPos, I18N.NET);
         putValueToMatrixAt(COL.D, currentPos, I18N.TAX_PERCENTAGE);
@@ -53,7 +53,7 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
         putValueToMatrixAt(COL.F, currentRow, String.format("=F%d", prjPosReference.getSumRow()));
     }
 
-    private void putSummaryToMatrix(int currentRow, int fromPos) {
+    protected void putSummaryToMatrix(int currentRow, int fromPos) {
         putValueToMatrixAt(COL.B, currentRow, I18N.SUM_AMOUNT);
         putValueToMatrixAt(COL.C, currentRow, SpreadsheetFormulas.SUM(COL.C, fromPos, currentRow-1));
         putValueToMatrixAt(COL.E, currentRow, SpreadsheetFormulas.SUM(COL.E, fromPos, currentRow-1));
@@ -62,6 +62,6 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
 
     protected void putCheckIfValuesAreCorrect(int currentPos) {
         putValueToMatrixAt(COL.G, currentPos,
-                String.format("=if(C%d<>SUM(D%d:D%d)/2,\"Betrag nicht gleich\",\"passt\")", currentPos, firstRowOfInternalPrjects, lastRowOfInternalPrjects));
+                String.format("=if(C%d<>SUM(D%d:D%d)/2,\"Betrag nicht gleich\",\"passt\")", currentPos, firstRowOfInternalProjects, lastRowOfInternalProjects));
     }
 }
