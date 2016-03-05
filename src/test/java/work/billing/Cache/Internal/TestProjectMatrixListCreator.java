@@ -10,7 +10,7 @@ import work.billing.Timesheet.TrackedTimeSummary;
 /**
  * Created by mhillbrand on 3/4/2016.
  */
-public class TestProjectsListingMatrix {
+public class TestProjectMatrixListCreator {
     private static final String PRJ_TEAM_LEAD = "Martin Hillbrand";
     private static TrackedTimeSummary trackedTimeSum;
     private static final String PROJECT_NAME_1 = "MyProject 1";

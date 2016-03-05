@@ -4,12 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import work.billing.Cache.ProjectPositions;
+import work.billing.Cache.MockPrjPos;
 import work.billing.I18N.I18N;
 import work.billing.Spreadsheets.COL;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -110,27 +109,5 @@ public class TestProjectSummary {
         }
 
         Assert.assertEquals(19, cellCount);
-    }
-
-    private static class MockPrjPos implements ProjectPositions {
-        private final int sumRow;
-
-        public MockPrjPos(int sumRow) {
-            this.sumRow = sumRow;
-        }
-        @Override
-        public int getHeadingRow() {
-            return sumRow-4;
-        }
-
-        @Override
-        public int getSumRow() {
-            return sumRow;
-        }
-
-        @Override
-        public int getTravelCostRow() {
-            return sumRow-1;
-        }
     }
 }

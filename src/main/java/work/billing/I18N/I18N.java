@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
  * Created by mhillbrand on 3/3/2016.
  */
 public class I18N {
-    public static final String EFFECTIVE_HOUR_RATE = getBundle().getString("EFFECTIVE_HOUR_RATE");
+
     private static ResourceBundle i18nBundle = null;
     public static ResourceBundle getBundle() {
         if (i18nBundle == null) {
@@ -29,4 +29,5 @@ public class I18N {
     public static final String HOUR_SUM = getBundle().getString("HOUR_SUM");
     public static final String DESCRIPTION = getBundle().getString("DESCRIPTION");
     public static final String TAX_PERCENTAGE = getBundle().getString("TAX_PERCENTAGE");
+    public static final String EFFECTIVE_HOUR_RATE = getBundle().getString("EFFECTIVE_HOUR_RATE");
 }

@@ -36,22 +36,6 @@ public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPosit
         putValueCheckerToMatrix(startRow);
     }
 
-    private int putUsersToMatrix(int currentRow) {
-        int internalPrjPersonCount = internalPrjPosition.getTravelCostRow()-internalPrjPosition.getHeadingRow()-1;
-        for (int relativePosFromHeading = 1; relativePosFromHeading <= internalPrjPersonCount; relativePosFromHeading++) {
-            putUserBillingInfoToMatrix(currentRow++, internalPrjPosition.getHeadingRow() + relativePosFromHeading);
-        }
-        return currentRow;
-    }
-
-    private void putUserBillingInfoToMatrix(int currentRow, int internalPrjTeamMemberRow) {
-        putValueToMatrixAt(COL.A, currentRow, String.format("=A%d", internalPrjTeamMemberRow));
-        putValueToMatrixAt(COL.B, currentRow,
-                String.format("=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C%d,\" EUR (\",B%d,\")\")",
-                        internalPrjTeamMemberRow, internalPrjTeamMemberRow));
-        putReferencesToInternalRowsToMatrix(currentRow, internalPrjTeamMemberRow);
-    }
-
     protected void putHeadingToMatrix(int currentRow) {
         this.headingRow = currentRow;
         putValueToMatrixAt(COL.A, currentRow++, String.format("=A%d", internalPrjPosition.getHeadingRow()));
@@ -63,13 +47,29 @@ public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPosit
         putValueToMatrixAt(COL.F, currentRow, I18N.PRE_TAX);
     }
 
+    protected int putUsersToMatrix(int currentRow) {
+        int internalPrjPersonCount = internalPrjPosition.getTravelCostRow()-internalPrjPosition.getHeadingRow()-1;
+        for (int relativePosFromHeading = 1; relativePosFromHeading <= internalPrjPersonCount; relativePosFromHeading++) {
+            putUserBillingInfoToMatrix(currentRow++, internalPrjPosition.getHeadingRow() + relativePosFromHeading);
+        }
+        return currentRow;
+    }
+
+    protected void putUserBillingInfoToMatrix(int currentRow, int internalPrjTeamMemberRow) {
+        putValueToMatrixAt(COL.A, currentRow, String.format("=A%d", internalPrjTeamMemberRow));
+        putValueToMatrixAt(COL.B, currentRow,
+                String.format("=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C%d,\" EUR (\",B%d,\")\")",
+                        internalPrjTeamMemberRow, internalPrjTeamMemberRow));
+        putReferencesToInternalRowsToMatrix(currentRow, internalPrjTeamMemberRow);
+    }
+
 
     protected void putTravelCostsToMatrix(int currentRow) {
         putValueToMatrixAt(COL.B, currentRow, I18N.TRAVEL_COSTS);
         putReferencesToInternalRowsToMatrix(currentRow, internalPrjPosition.getTravelCostRow());
     }
 
-    private void putReferencesToInternalRowsToMatrix(int currentRow, int internalPrjRow) {
+    protected void putReferencesToInternalRowsToMatrix(int currentRow, int internalPrjRow) {
         putValueToMatrixAt(COL.C, currentRow, SpreadsheetFormulas.ROUND(COL.D, internalPrjRow));
         putValueToMatrixAt(COL.D, currentRow, I18N.PERCENT20);
         putValueToMatrixAt(COL.E, currentRow, SpreadsheetFormulas.ROUND(COL.E, internalPrjRow));
@@ -86,7 +86,7 @@ public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPosit
                 SpreadsheetFormulas.SUM(COL.F, fromPos, currentRow-1));
     }
 
-    private void putValueCheckerToMatrix(int startRow) {
+    protected void putValueCheckerToMatrix(int startRow) {
         putValueToMatrixAt(COL.G, startRow,
                 String.format("=if(C%d<>D%d,\"Betrag nicht gleich\",\"passt\")", startRow, internalPrjPosition.getSumRow()));
     }
