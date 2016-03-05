@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class MonthlyReportCache {
 
-    public static final String PROJECT_LEAD_NAME = "Felix Schwenk";
+    public static final String PROJECT_LEAD_NAME = "Martin Hillbrand"; //"Felix Schwenk";
     private AbstractMap<String, Integer> hourRatePerTeamMember = new HashMap<>();
     private TrackedTimeSummary trackedTimeSum;
     private List<BaseSpreadSheetMatrix> spreadSheetMatrixItems;
@@ -27,9 +27,9 @@ public class MonthlyReportCache {
         List<String> teamMembers = new ArrayList<>();
         teamMembers.addAll(this.hourRatePerTeamMember.keySet());
         //**************************** SECTION TO CREATE INTERNAL PRJ PRESENTATION ***********************
-        int startPosInternalProjects = teamMembers.size()+2;
+        int startPosInternalProjects = teamMembers.size()+3;
 
-        ProjectMatrixListCreator internalPrjMatrix = new ProjectMatrixListCreator(trackedTimeSum, PROJECT_LEAD_NAME);
+        ProjectMatrixListCreator internalPrjMatrix = new ProjectMatrixListCreator(trackedTimeSum, PROJECT_LEAD_NAME, teamMembers.size()+1);
         internalPrjMatrix.initialize(startPosInternalProjects);
         //************************************************************************************************
         //************************** SECTION TO CREATE TEAM MEMBER OVERVIEW ******************************

@@ -26,7 +26,7 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
         int fromPos = currentRow;
         putHeadingForShortSummaryOfBillingProject(currentRow++);
         currentRow = putProjectReferences(currentRow);
-        putSummaryToMatrix(currentRow++, fromPos);
+        putSummaryToMatrix(currentRow, fromPos);
         putCheckIfValuesAreCorrect(currentRow);
     }
 

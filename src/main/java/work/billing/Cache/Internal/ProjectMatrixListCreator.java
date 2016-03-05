@@ -25,8 +25,8 @@ public class ProjectMatrixListCreator {
     public int getFirstPos() { return firstPos; }
     public ProjectSummary getPrjSummary() {return prjSummary;}
 
-    public ProjectMatrixListCreator(TrackedTimeSummary trackedTimeSum, String projectLeadName) {
-        prjSummary = new ProjectSummary(projectLeadName);
+    public ProjectMatrixListCreator(TrackedTimeSummary trackedTimeSum, String projectLeadName, int teamSumHours) {
+        prjSummary = new ProjectSummary(projectLeadName, teamSumHours);
         this.timesPerProject = trackedTimeSum.getProjectTimesMap();
         this.internalProjectMatrices = new ArrayList<>();
     }
@@ -37,7 +37,7 @@ public class ProjectMatrixListCreator {
             ProjectMatrix prjMatrix = new ProjectMatrix(project, timesPerProject.get(project));
             prjMatrix.initializeMatrix(startPos);
             this.internalProjectMatrices.add(prjMatrix);
-            startPos = prjMatrix.getSumRow()+2;
+            startPos = prjMatrix.getSumRow()+3;
         }
         lastPosOfProjects = startPos;
         initializeSummary();

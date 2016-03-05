@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by mhillbrand on 3/4/2016.
  */
-public class TestInternalProjectMatrix {
+public class TestProjectMatrix {
     private ProjectMatrix internalPrjMatrix;
     private static List<TrackedTime> trackedTimes;
     public static final String PROJECT_NAME = "TestName";

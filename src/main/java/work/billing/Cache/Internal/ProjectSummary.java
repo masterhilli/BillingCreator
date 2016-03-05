@@ -14,13 +14,15 @@ import java.util.List;
 public class ProjectSummary extends BaseSpreadSheetMatrix {
 
     private final String prjLeadName;
+    private final int rowSumTeamMembers;
     private int lastPos;
     private int firstPos;
 
     public int getLastPos() { return lastPos; }
 
-    public ProjectSummary(String prjLeadName) {
+    public ProjectSummary(String prjLeadName, int rowSumTeamMembers) {
         this.prjLeadName = prjLeadName;
+        this.rowSumTeamMembers = rowSumTeamMembers;
     }
 
     public void initialize(int fromPos, int toPos) {
@@ -29,7 +31,7 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
         currentPos++; // skip this row, because here we put the check in later!
         putLineForProjectLeadsCalculation(currentPos++, fromPos, toPos);
         putLineWithInfoRounded(currentPos++);
-        putLineTeamHours(currentPos++, fromPos);
+        putLineTeamHours(currentPos++);
         putLineSumForBilling(currentPos++);
         putLinePrjLeadHourRate(currentPos++);
         lastPos = currentPos;
@@ -59,10 +61,10 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
         putValueToMatrixAt(COL.E, row, I18N.ROUNDED);
     }
 
-    protected void putLineTeamHours(int currentPos, int fromPos) {
+    protected void putLineTeamHours(int currentPos) {
         putValueToMatrixAt(COL.C, currentPos, I18N.TEAM_HOURS);
         putValueToMatrixAt(COL.D, currentPos,
-                String.format("=A%d-D%d", fromPos, currentPos - 2));
+                String.format("=A%d-D%d", rowSumTeamMembers, currentPos - 2));
         putValueToMatrixAt(COL.E, currentPos,
                 String.format("=IF(MOD(D%d,50)=0,D%d,(ROUNDDOWN(D%d/50,0)+1)*50)",
                         currentPos, currentPos, currentPos));
@@ -71,12 +73,12 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
                 String.format("=MIN(E%d*F%d,G%d)", currentPos, currentPos, currentPos - 2));
     }
 
-    private void putLineSumForBilling(int row) {
+    protected void putLineSumForBilling(int row) {
         putValueToMatrixAt(COL.C, row, I18N.BILLING_SUM);
         putValueToMatrixAt(COL.G, row, SpreadsheetFormulas.SUM(COL.G, row-3, row-1));
     }
 
-    private void putLinePrjLeadHourRate(int row) {
+    protected void putLinePrjLeadHourRate(int row) {
         putValueToMatrixAt(COL.C, row, I18N.EFFECTIVE_HOUR_RATE);
         putValueToMatrixAt(COL.G, row, String.format("=G%d/D%d", row - 1, row - 4));
     }
