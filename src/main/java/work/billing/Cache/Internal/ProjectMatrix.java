@@ -22,6 +22,10 @@ public class ProjectMatrix extends BaseSpreadSheetMatrix implements ProjectPosit
     public int getSumRow() { return sumRow; }
     public int getTravelCostRow() { return sumRow-1; }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
     public ProjectMatrix(String projectName, List<TrackedTime> times) {
         this.projectName = projectName;
         this.times = times;

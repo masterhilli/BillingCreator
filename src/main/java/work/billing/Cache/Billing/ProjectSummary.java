@@ -15,6 +15,7 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
     private final List<? extends ProjectPositions> billingProjectMatrices;
     private int firstRowOfInternalProjects = 0;
     private int lastRowOfInternalProjects = 0;
+    private int lastPos = 0;
 
     public ProjectSummary(List<? extends ProjectPositions> billingProjectMatrices, int firstRow, int lastRow) {
         this.billingProjectMatrices = billingProjectMatrices;
@@ -61,7 +62,12 @@ public class ProjectSummary extends BaseSpreadSheetMatrix {
     }
 
     protected void putCheckIfValuesAreCorrect(int currentPos) {
+        lastPos = currentPos;
         putValueToMatrixAt(COL.G, currentPos,
                 String.format("=if(C%d<>SUM(D%d:D%d)/2,\"Betrag nicht gleich\",\"passt\")", currentPos, firstRowOfInternalProjects, lastRowOfInternalProjects));
+    }
+
+    public int getLastPos() {
+        return lastPos;
     }
 }

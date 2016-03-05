@@ -35,7 +35,7 @@ public class ProjectMatrixListCreator {
         initializeProjectSummary(++startPos);
     }
 
-    private int initializeProjectsToMatrix(int startPos) {
+    protected int initializeProjectsToMatrix(int startPos) {
         for (ProjectPositions prjPos : internalPrjPositions) {
             ProjectMatrix billingPrjMatrix = new ProjectMatrix(prjPos);
             billingPrjMatrix.initialize(startPos);
