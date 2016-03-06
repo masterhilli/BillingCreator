@@ -10,14 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class BaseSpreadSheetMatrix {
     // TODO: change that back to private, ASAP we are finished here
-    public AbstractMap<Integer, AbstractMap<Integer, String>> cellMatrix = new ConcurrentHashMap<>();
+    public AbstractMap<COL, AbstractMap<Integer, String>> cellMatrix = new ConcurrentHashMap<>();
 
     protected void putValueToMatrixAt(COL column, int currentRow, String value) {
-        Integer col = column.ordinal();
-        if (this.cellMatrix.get(col) == null) {
-            this.cellMatrix.put(col, new ConcurrentHashMap<>());
+        if (this.cellMatrix.get(column) == null) {
+            this.cellMatrix.put(column, new ConcurrentHashMap<>());
         }
-        this.cellMatrix.get(col).put(currentRow, value);
+        this.cellMatrix.get(column).put(currentRow, value);
     }
 }
 

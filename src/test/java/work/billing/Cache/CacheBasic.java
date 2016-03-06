@@ -21,7 +21,7 @@ public class CacheBasic {
     }
 
     protected void assertMatrix(String expected, COL col, int row) {
-        Assert.assertEquals(expected, matrix.cellMatrix.get(col.ordinal()).get(row));
+        Assert.assertEquals(expected, matrix.cellMatrix.get(col).get(row));
     }
 
     protected void assertReferences(int intPrjRow) {

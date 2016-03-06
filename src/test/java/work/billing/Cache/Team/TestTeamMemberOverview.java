@@ -36,7 +36,7 @@ public class TestTeamMemberOverview {
     @Test
     public void putTeamMembersAndTimesOnMatrix_With3TeamMembers_ReturnsCorrectSUMIFAtPos2() {
         teamMemberMatrix.putTeamMembersAndTimesToMatrix(fromPos,toPos);
-        String sumIFVal = this.teamMemberMatrix.cellMatrix.get(COL.A.ordinal()).get(2);
+        String sumIFVal = this.teamMemberMatrix.cellMatrix.get(COL.A ).get(2);
         Assert.assertEquals("=SUMIF($B$1:$B$3,B2,$A$1:$A$3)", sumIFVal);
     }
 
@@ -45,7 +45,7 @@ public class TestTeamMemberOverview {
         teamMemberMatrix.putTeamMembersAndTimesToMatrix(fromPos,toPos);
         List<String> actualTeamMembers = new ArrayList<>();
         for (int i = 1; i <= toPos; i++) {
-            actualTeamMembers.add(this.teamMemberMatrix.cellMatrix.get(COL.B.ordinal()).get(i));
+            actualTeamMembers.add(this.teamMemberMatrix.cellMatrix.get(COL.B ).get(i));
         }
 
         org.junit.Assert.assertArrayEquals(teamMembers.toArray(), actualTeamMembers.toArray());
@@ -54,7 +54,7 @@ public class TestTeamMemberOverview {
     @Test
     public void putTeamMembersAndTimesOnMatrix_With3TeamMembers_ReturnsCorrectSumFormula() {
         teamMemberMatrix.putTeamMembersAndTimesToMatrix(fromPos,toPos);
-        String actualSumFormulaAtTheEnd = this.teamMemberMatrix.cellMatrix.get(COL.A.ordinal()).get(4);
+        String actualSumFormulaAtTheEnd = this.teamMemberMatrix.cellMatrix.get(COL.A ).get(4);
 
         Assert.assertEquals("=SUM(A1:A3)", actualSumFormulaAtTheEnd);
     }

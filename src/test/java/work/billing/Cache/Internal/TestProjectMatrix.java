@@ -37,11 +37,11 @@ public class TestProjectMatrix {
         int row = 5;
         internalPrjMatrix.putHeadingToMatrix(row);
 
-        Assert.assertEquals(PROJECT_NAME, internalPrjMatrix.cellMatrix.get(COL.A.ordinal()).get(row));
-        Assert.assertEquals(I18N.HOUR_RATE, internalPrjMatrix.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals(I18N.NET, internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
-        Assert.assertEquals(I18N.VAT, internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(row));
-        Assert.assertEquals(I18N.PRE_TAX, internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(row));
+        Assert.assertEquals(PROJECT_NAME, internalPrjMatrix.cellMatrix.get(COL.A).get(row));
+        Assert.assertEquals(I18N.HOUR_RATE, internalPrjMatrix.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals(I18N.NET, internalPrjMatrix.cellMatrix.get(COL.D).get(row));
+        Assert.assertEquals(I18N.VAT, internalPrjMatrix.cellMatrix.get(COL.E).get(row));
+        Assert.assertEquals(I18N.PRE_TAX, internalPrjMatrix.cellMatrix.get(COL.F).get(row));
         Assert.assertEquals(row, internalPrjMatrix.getHeadingRow());
     }
 
@@ -56,8 +56,8 @@ public class TestProjectMatrix {
     public void PutVATtoMatrix_WithStartPos5_ReturnsCorrectVATANDSUMField() {
         internalPrjMatrix.putVATtoMatrix(5);
 
-        Assert.assertEquals("=D5*0.20", internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(5));
-        Assert.assertEquals("=D5+E5", internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(5));
+        Assert.assertEquals("=D5*0.20", internalPrjMatrix.cellMatrix.get(COL.E).get(5));
+        Assert.assertEquals("=D5+E5", internalPrjMatrix.cellMatrix.get(COL.F).get(5));
     }
 
     @Test
@@ -65,9 +65,9 @@ public class TestProjectMatrix {
         int row = 5;
         internalPrjMatrix.putSumLineToMatrix(row, row-3);
 
-        Assert.assertEquals("=SUM(D2:D4)", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
-        Assert.assertEquals("=SUM(E2:E4)", internalPrjMatrix.cellMatrix.get(COL.E.ordinal()).get(row));
-        Assert.assertEquals("=SUM(F2:F4)", internalPrjMatrix.cellMatrix.get(COL.F.ordinal()).get(row));
+        Assert.assertEquals("=SUM(D2:D4)", internalPrjMatrix.cellMatrix.get(COL.D).get(row));
+        Assert.assertEquals("=SUM(E2:E4)", internalPrjMatrix.cellMatrix.get(COL.E).get(row));
+        Assert.assertEquals("=SUM(F2:F4)", internalPrjMatrix.cellMatrix.get(COL.F).get(row));
     }
 
     @Test
@@ -75,8 +75,8 @@ public class TestProjectMatrix {
         int row = 5;
         internalPrjMatrix.putTravelCostsToMatrix(row, 22.7);
 
-        Assert.assertEquals(I18N.TRAVEL_COSTS, internalPrjMatrix.cellMatrix.get(COL.B.ordinal()).get(row));
-        Assert.assertEquals("22.70", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
+        Assert.assertEquals(I18N.TRAVEL_COSTS, internalPrjMatrix.cellMatrix.get(COL.B).get(row));
+        Assert.assertEquals("22.70", internalPrjMatrix.cellMatrix.get(COL.D).get(row));
     }
 
     @Test
@@ -84,10 +84,10 @@ public class TestProjectMatrix {
         int row = 5;
         internalPrjMatrix.putTimeForTeamMemberToMatrix(row, trackedTimes.get(0));
 
-        Assert.assertEquals("5.50", internalPrjMatrix.cellMatrix.get(COL.A.ordinal()).get(row));
-        Assert.assertEquals("Martin Hillbrand", internalPrjMatrix.cellMatrix.get(COL.B.ordinal()).get(row));
-        Assert.assertEquals("90", internalPrjMatrix.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals("=A5*C5", internalPrjMatrix.cellMatrix.get(COL.D.ordinal()).get(row));
+        Assert.assertEquals("5.50", internalPrjMatrix.cellMatrix.get(COL.A).get(row));
+        Assert.assertEquals("Martin Hillbrand", internalPrjMatrix.cellMatrix.get(COL.B).get(row));
+        Assert.assertEquals("90", internalPrjMatrix.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals("=A5*C5", internalPrjMatrix.cellMatrix.get(COL.D).get(row));
     }
 
     @Test
@@ -115,15 +115,14 @@ public class TestProjectMatrix {
     public void InitializeMatrix_WithRow5_ReturnsCorrectValuesAtColB() {
         internalPrjMatrix.initializeMatrix(5);
 
-        HashMap<Integer, HashMap<Integer, String>> expected = new HashMap<>();
-        int colB = COL.B.ordinal();
-        expected.put(colB, new HashMap<>());
-        expected.get(colB).put(6, trackedTimes.get(0).getTeamMember());
-        expected.get(colB).put(7, trackedTimes.get(1).getTeamMember());
-        expected.get(colB).put(8, trackedTimes.get(2).getTeamMember());
-        expected.get(colB).put(9, I18N.TRAVEL_COSTS);
+        HashMap<COL, HashMap<Integer, String>> expected = new HashMap<>();
+        expected.put(COL.B, new HashMap<>());
+        expected.get(COL.B).put(6, trackedTimes.get(0).getTeamMember());
+        expected.get(COL.B).put(7, trackedTimes.get(1).getTeamMember());
+        expected.get(COL.B).put(8, trackedTimes.get(2).getTeamMember());
+        expected.get(COL.B).put(9, I18N.TRAVEL_COSTS);
 
 
-        Assert.assertEquals(expected.get(colB), internalPrjMatrix.cellMatrix.get(colB));
+        Assert.assertEquals(expected.get(COL.B), internalPrjMatrix.cellMatrix.get(COL.B));
     }
 }

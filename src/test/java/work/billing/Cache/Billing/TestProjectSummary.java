@@ -86,11 +86,11 @@ public class TestProjectSummary extends CacheBasic{
         prjSum.initialize(getCurrentRow());
 
         int actual = 0;
-        for (Integer col : prjSum.cellMatrix.keySet()) {
+        for (COL col : prjSum.cellMatrix.keySet()) {
             actual += prjSum.cellMatrix.get(col).keySet().size();
         }
 
-        Assert.assertEquals(1, prjSum.cellMatrix.get(COL.G.ordinal()).size());
+        Assert.assertEquals(1, prjSum.cellMatrix.get(COL.G).size());
         Assert.assertEquals(30, actual);
     }
 }

@@ -9,6 +9,7 @@ import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 import work.billing.Cache.MonthlyReportCache;
 import work.billing.ProjectSpreadSheet.ProjectSpreadsheetToTrackTimeMapper;
+import work.billing.Spreadsheets.COL;
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
@@ -106,10 +107,10 @@ public class AppRunner implements Runnable {
 
     @Override
     public void run() {
-        for (Integer col : cachedMatrix.cellMatrix.keySet()) {
+        for (COL col : cachedMatrix.cellMatrix.keySet()) {
             AbstractMap<Integer, String> rows = cachedMatrix.cellMatrix.get(col);
             for (Integer row : rows.keySet()) {
-                spreadSheet.insertValueIntoCell(this.workSheetName, col, row, rows.get(row));
+                spreadSheet.insertValueIntoCell(this.workSheetName, col.ordinal() , row, rows.get(row));
             }
         }
     }

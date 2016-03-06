@@ -1,6 +1,5 @@
 package work.billing.Cache;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,47 +58,57 @@ public class IntegrationTestMonthlyReport {
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedTeamMemberOverviewMatrix() {
-        Assert.assertEquals(getExpectedTeamMemberOverViewMatrix().cellMatrix, getTeamMemberOverviewObject().cellMatrix);
+        assertOnComparingHashMap(getExpectedTeamMemberOverViewMatrix().cellMatrix, getTeamMemberOverviewObject().cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProjectSummary() {
-        Assert.assertEquals(getExpectedInternalProjectSummary().cellMatrix, getInternalProjectSummary().cellMatrix);
+        assertOnComparingHashMap(getExpectedInternalProjectSummary().cellMatrix, getInternalProjectSummary().cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProjectSummary() {
-        Assert.assertEquals(getExpectedBillingProjectSummary().cellMatrix, getBillingProjectSummary().cellMatrix);
+        assertOnComparingHashMap(getExpectedBillingProjectSummary().cellMatrix, getBillingProjectSummary().cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_1() {
-        Assert.assertEquals(getExpectedInternalProjectMatrix_1().cellMatrix, getInternalProjectMatrix(PROJECT_1).cellMatrix);
+        assertOnComparingHashMap(getExpectedInternalProjectMatrix_1().cellMatrix, getInternalProjectMatrix(PROJECT_1).cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_2() {
-        Assert.assertEquals(getExpectedInternalProjectMatrix_2().cellMatrix, getInternalProjectMatrix(PROJECT_2).cellMatrix);
+        assertOnComparingHashMap(getExpectedInternalProjectMatrix_2().cellMatrix, getInternalProjectMatrix(PROJECT_2).cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_3() {
-        Assert.assertEquals(getExpectedInternalProjectMatrix_3().cellMatrix, getInternalProjectMatrix(PROJECT_3).cellMatrix);
+        assertOnComparingHashMap(getExpectedInternalProjectMatrix_3().cellMatrix, getInternalProjectMatrix(PROJECT_3).cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_1() {
-        Assert.assertEquals(getExpectedBillingProjectMatrix_1().cellMatrix, getBillingProjectMatrix(45).cellMatrix);
+        assertOnComparingHashMap(getExpectedBillingProjectMatrix_1().cellMatrix, getBillingProjectMatrix(45).cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_2() {
-        Assert.assertEquals(getExpectedBillingProjectMatrix_2().cellMatrix, getBillingProjectMatrix(38).cellMatrix);
+        assertOnComparingHashMap(getExpectedBillingProjectMatrix_2().cellMatrix, getBillingProjectMatrix(38).cellMatrix);
     }
 
     @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_3() {
-        Assert.assertEquals(getExpectedBillingProjectMatrix_3().cellMatrix, getBillingProjectMatrix(53).cellMatrix);
+        assertOnComparingHashMap(getExpectedBillingProjectMatrix_3().cellMatrix, getBillingProjectMatrix(53).cellMatrix);
+    }
+
+    private void assertOnComparingHashMap(AbstractMap<COL, AbstractMap<Integer, String>> expected, AbstractMap<COL, AbstractMap<Integer, String>> actual) {
+        Assert.assertEquals(expected.keySet().size(), actual.keySet().size());
+        for (COL col : expected.keySet()) {
+            Assert.assertEquals(expected.get(col).keySet().size(), actual.get(col).size());
+            for (Integer row : expected.get(col).keySet()) {
+                Assert.assertEquals(expected.get(col).get(row), actual.get(col).get(row));
+            }
+        }
     }
 
     private BaseSpreadSheetMatrix getExpectedBillingProjectSummary() {

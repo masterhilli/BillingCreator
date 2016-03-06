@@ -38,55 +38,55 @@ public class TestProjectSummary {
     public void putLineForSummaryOfNetVatPreTax_WithRow11AndTeamMemberRow10_ReturnsSumsFor1to10() {
         prjSum.putLineForSummaryOfNetVatPreTax(row);
 
-        Assert.assertEquals(I18N.SUM_AMOUNT.toUpperCase(), prjSum.cellMatrix.get(COL.A.ordinal()).get(row));
-        Assert.assertEquals("=SUM(D1:D10)/2", prjSum.cellMatrix.get(COL.D.ordinal()).get(row));
-        Assert.assertEquals("=SUM(E1:E10)/2", prjSum.cellMatrix.get(COL.E.ordinal()).get(row));
-        Assert.assertEquals("=SUM(F1:F10)/2", prjSum.cellMatrix.get(COL.F.ordinal()).get(row));
+        Assert.assertEquals(I18N.SUM_AMOUNT.toUpperCase(), prjSum.cellMatrix.get(COL.A).get(row));
+        Assert.assertEquals("=SUM(D1:D10)/2", prjSum.cellMatrix.get(COL.D).get(row));
+        Assert.assertEquals("=SUM(E1:E10)/2", prjSum.cellMatrix.get(COL.E).get(row));
+        Assert.assertEquals("=SUM(F1:F10)/2", prjSum.cellMatrix.get(COL.F).get(row));
     }
 
     @Test
     public void putLineForProjectLeadsCalculation_WithTestLead_ReturnsPrjLeadLine() {
         prjSum.putLineForProjectLeadsCalculation(row, 5, 7);
 
-        Assert.assertEquals(PRJ_LEAD, prjSum.cellMatrix.get(COL.B.ordinal()).get(row));
-        Assert.assertEquals(I18N.PRJ_LEAD_HOURS, prjSum.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals("=SUMIF($B$5:$B$7,B11,$A$5:$A$7)", prjSum.cellMatrix.get(COL.D.ordinal()).get(row));
-        Assert.assertEquals("50", prjSum.cellMatrix.get(COL.E.ordinal()).get(row));
-        Assert.assertEquals("=D11*E11", prjSum.cellMatrix.get(COL.G.ordinal()).get(row));
+        Assert.assertEquals(PRJ_LEAD, prjSum.cellMatrix.get(COL.B).get(row));
+        Assert.assertEquals(I18N.PRJ_LEAD_HOURS, prjSum.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals("=SUMIF($B$5:$B$7,B11,$A$5:$A$7)", prjSum.cellMatrix.get(COL.D).get(row));
+        Assert.assertEquals("50", prjSum.cellMatrix.get(COL.E).get(row));
+        Assert.assertEquals("=D11*E11", prjSum.cellMatrix.get(COL.G).get(row));
     }
 
     @Test
     public void putLineWithInfoRounded_WithRow11_ReturnsRoundedAtColERow11(){
         prjSum.putLineWithInfoRounded(row);
 
-        Assert.assertEquals(I18N.ROUNDED, prjSum.cellMatrix.get(COL.E.ordinal()).get(row));
+        Assert.assertEquals(I18N.ROUNDED, prjSum.cellMatrix.get(COL.E ).get(row));
     }
 
     @Test
     public void putLineTeamHours_WithRow11_ReturnsTeamFormulasAtRow11() {
         prjSum.putLineTeamHours(row);
 
-        Assert.assertEquals(I18N.TEAM_HOURS, prjSum.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals("=A10-D9", prjSum.cellMatrix.get(COL.D.ordinal()).get(row));
-        Assert.assertEquals("=IF(MOD(D11,50)=0,D11,(ROUNDDOWN(D11/50,0)+1)*50)", prjSum.cellMatrix.get(COL.E.ordinal()).get(row));
-        Assert.assertEquals("4.00", prjSum.cellMatrix.get(COL.F.ordinal()).get(row));
-        Assert.assertEquals("=MIN(E11*F11,G9)", prjSum.cellMatrix.get(COL.G.ordinal()).get(row));
+        Assert.assertEquals(I18N.TEAM_HOURS, prjSum.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals("=A10-D9", prjSum.cellMatrix.get(COL.D).get(row));
+        Assert.assertEquals("=IF(MOD(D11,50)=0,D11,(ROUNDDOWN(D11/50,0)+1)*50)", prjSum.cellMatrix.get(COL.E).get(row));
+        Assert.assertEquals("4.00", prjSum.cellMatrix.get(COL.F ).get(row));
+        Assert.assertEquals("=MIN(E11*F11,G9)", prjSum.cellMatrix.get(COL.G ).get(row));
     }
 
     @Test
     public void putLineSumForBilling_WithRow11_ReturnsSumFormulaAtColGRow11() {
         prjSum.putLineSumForBilling(row);
 
-        Assert.assertEquals(I18N.BILLING_SUM, prjSum.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals("=SUM(G8:G10)", prjSum.cellMatrix.get(COL.G.ordinal()).get(row));
+        Assert.assertEquals(I18N.BILLING_SUM, prjSum.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals("=SUM(G8:G10)", prjSum.cellMatrix.get(COL.G).get(row));
     }
 
     @Test
     public void putLinePrjLeadHourRate_WithRow11_ReturnsSumFormulaAtColGRow11() {
         prjSum.putLinePrjLeadHourRate(row);
 
-        Assert.assertEquals(I18N.EFFECTIVE_HOUR_RATE, prjSum.cellMatrix.get(COL.C.ordinal()).get(row));
-        Assert.assertEquals("=G10/D7", prjSum.cellMatrix.get(COL.G.ordinal()).get(row));
+        Assert.assertEquals(I18N.EFFECTIVE_HOUR_RATE, prjSum.cellMatrix.get(COL.C).get(row));
+        Assert.assertEquals("=G10/D7", prjSum.cellMatrix.get(COL.G).get(row));
     }
 
     @Test
@@ -95,8 +95,8 @@ public class TestProjectSummary {
 
         prjSum.initializeFieldForOverallSummary(projectPositions);
 
-        Assert.assertEquals("=if(D11<>D12,\"da stimmt was nicht\",\"Summen passen\")", prjSum.cellMatrix.get(COL.C.ordinal()).get(row+1));
-        Assert.assertEquals("=C11+C22+C33", prjSum.cellMatrix.get(COL.D.ordinal()).get(row+1));
+        Assert.assertEquals("=if(D11<>D12,\"da stimmt was nicht\",\"Summen passen\")", prjSum.cellMatrix.get(COL.C).get(row+1));
+        Assert.assertEquals("=C11+C22+C33", prjSum.cellMatrix.get(COL.D).get(row+1));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class TestProjectSummary {
         prjSum.initialize(1, rowTeamMemberSums);
 
         int cellCount = 0;
-        for (Integer col: prjSum.cellMatrix.keySet()) {
+        for (COL col: prjSum.cellMatrix.keySet()) {
             cellCount += prjSum.cellMatrix.get(col).size();
         }
 
