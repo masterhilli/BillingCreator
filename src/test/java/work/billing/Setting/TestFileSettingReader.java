@@ -19,8 +19,11 @@ public class TestFileSettingReader {
     public void testReadFileSettingsFromFileReturnstestFileAsObject() {
         FileSettings actual = FileSettingReader.ReadFileSettingsFromFile(pathToFileSetting);
         Assert.assertEquals(actual.exportFileId, "akjdsaoi-asdjfiaopo-12");
-        Assert.assertEquals(actual.importFileId.get(0), "qwertzuiop1234567890-.,'*");
-        Assert.assertEquals(actual.importFileId.get(1), "testtesttesttesttest---1234567989/*-+");
+        Assert.assertEquals("Test", actual.projectLead);
+        Assert.assertEquals("Test1", actual.searchParams.get(0));
+        Assert.assertEquals("Test2", actual.searchParams.get(1));
+        Assert.assertEquals(actual.importFileId.get("qwertzuiop1234567890-.,'*"), "Test1");
+        Assert.assertEquals(actual.importFileId.get("testtesttesttesttest---1234567989/*-+"), "Test2");
         //Assert.assertEquals(actual.personHourCosts.get(0).name, "Martin Hillbrand");
         //Assert.assertEquals(actual.personHourCosts.get(0).rate, 90);
     }

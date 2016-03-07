@@ -9,7 +9,9 @@ import java.util.List;
  */
 public class FileSettings {
     public String exportFileId;
-    public List<String> importFileId;
+    public String projectLead;
+    public List<String> searchParams;
+    public HashMap<String, String> importFileId;
     public List<HourRate> personHourCosts;
 
     public HashMap<String, Integer> getHourRateAsHashMapPerTeamMember() {

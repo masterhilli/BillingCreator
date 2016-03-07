@@ -1,10 +1,13 @@
 package work.billing.Files;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import google.api.auth.AuthorizeService;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static google.api.auth.AuthorizeService.getDriveService;
 
@@ -13,7 +16,8 @@ import static google.api.auth.AuthorizeService.getDriveService;
  */
 public class ListSpreadsheets {
     public static FileList retrieveAllFiles(String arg) throws IOException{
-        Drive driveService = getDriveService();
+        Credential authCredential = AuthorizeService.getCredential(Arrays.asList("https://spreadsheets.google.com/feeds"));
+        Drive driveService = getDriveService(authCredential);
 
         FileList result;
         String pageToken = null;

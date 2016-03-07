@@ -106,8 +106,9 @@ public class AuthorizeService {
      * @return an authorized Drive client service
      * @throws IOException
      */
-    public static Drive getDriveService() throws IOException {
-        Credential credential = AuthorizeService.getCredential(DriveScopes.all());
+    public static Drive getDriveService(Credential credential) throws IOException {
+        if (credential == null )
+            credential = AuthorizeService.getCredential(DriveScopes.all());
         return new Drive.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)

@@ -38,7 +38,7 @@ public class BillingExporter {
 
     private static TrackedTimeSummary getTrackedTimeSummary(String worksheetName, FileSettings settings) {
         TrackedTimeSummary trackedTimeSum = new TrackedTimeSummary();
-        for (String key : settings.importFileId) {
+        for (String key : settings.importFileId.keySet()) {
             receiveTrackedTimeForSpreadSheetAndAddToTrackedTimeSum(worksheetName, settings, trackedTimeSum, key);
         }
         return trackedTimeSum;

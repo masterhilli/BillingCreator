@@ -24,4 +24,14 @@ public class FileSettingReader {
 
         return fileSettings;
     }
+
+    public static void WriteFileSettingsToFile(String path, FileSettings fileSettings) {
+        String absoluteFilepath = Paths.get(path).toAbsolutePath().toString();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(new File(absoluteFilepath), fileSettings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
