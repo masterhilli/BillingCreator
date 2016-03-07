@@ -1,4 +1,4 @@
-package work.billing.Export;
+package work.billing.ProjectSpreadSheet;
 
 import work.billing.Spreadsheets.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Created by mhillbrand on 2/21/2016.
  */
-public class ProjectsheetToTrackTimeMapper {
+public class ProjectSpreadsheetToTrackTimeMapper {
     private static final String PROJECT_KEY = "C4";
     private static final String TEAM_MEMBER_KEY = "C5";
     private static final String MONTH_KEY = "C6";

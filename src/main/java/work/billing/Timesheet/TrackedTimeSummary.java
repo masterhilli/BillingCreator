@@ -1,5 +1,6 @@
 package work.billing.Timesheet;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,15 @@ public class TrackedTimeSummary {
 
     public List<String> getProjectNames() {
         return trackedTimesPerProject.keySet().stream().collect(Collectors.toList());
+    }
+
+    public HashMap<String, List<TrackedTime>> getProjectTimesMap() {
+        HashMap<String, List<TrackedTime>> retMap = new HashMap<>();
+        for (String project : getProjectNames()) {
+            List<TrackedTime> timesForProject = receiveTrackedTimesPerProject(project);
+            retMap.put(project, timesForProject);
+        }
+        return retMap;
     }
 
     //@NotNull

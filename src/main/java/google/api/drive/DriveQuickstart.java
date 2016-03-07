@@ -13,7 +13,7 @@ public class DriveQuickstart {
 
     public static void run(String[] args) throws IOException {
         // Build a new authorized API client service.
-        Drive driveService = AuthorizeService.getDriveService();
+        Drive driveService = AuthorizeService.getDriveService(null);
 
         // Print the names and IDs for up to 10 files.
         FileList result = driveService.files().list()
