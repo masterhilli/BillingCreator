@@ -62,7 +62,7 @@ public class IntegrationTestMonthlyReport {
         assertOnComparingHashMap(getExpectedTeamMemberOverViewMatrix().cellMatrix, getTeamMemberOverviewObject().cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProjectSummary() {
         assertOnComparingHashMap(getExpectedInternalProjectSummary().cellMatrix, getInternalProjectSummary().cellMatrix);
     }
@@ -72,32 +72,32 @@ public class IntegrationTestMonthlyReport {
         assertOnComparingHashMap(getExpectedBillingProjectSummary().cellMatrix, getBillingProjectSummary().cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_1() {
         assertOnComparingHashMap(getExpectedInternalProjectMatrix_1().cellMatrix, getInternalProjectMatrix(PROJECT_1).cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_2() {
         assertOnComparingHashMap(getExpectedInternalProjectMatrix_2().cellMatrix, getInternalProjectMatrix(PROJECT_2).cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedInternalProject_3() {
         assertOnComparingHashMap(getExpectedInternalProjectMatrix_3().cellMatrix, getInternalProjectMatrix(PROJECT_3).cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_1() {
         assertOnComparingHashMap(getExpectedBillingProjectMatrix_1().cellMatrix, getBillingProjectMatrix(45).cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_2() {
         assertOnComparingHashMap(getExpectedBillingProjectMatrix_2().cellMatrix, getBillingProjectMatrix(38).cellMatrix);
     }
 
-    @Ignore
+    @Test
     public void TestInitializeOfMonthlyReport_ReturnsExpectedBillingProject_3() {
         assertOnComparingHashMap(getExpectedBillingProjectMatrix_3().cellMatrix, getBillingProjectMatrix(53).cellMatrix);
     }
@@ -155,7 +155,7 @@ public class IntegrationTestMonthlyReport {
         internalPrjSum.putValueToMatrixAt(COL.B, 31, "Test1");
 
         internalPrjSum.putValueToMatrixAt(COL.C, 33, "Teamstunden");
-        internalPrjSum.putValueToMatrixAt(COL.C, 34, "Summe für Rechnung");
+        internalPrjSum.putValueToMatrixAt(COL.C, 34, "Summe fuer Rechnung");
         internalPrjSum.putValueToMatrixAt(COL.C, 35, "Effektiver Stundensatz");
         internalPrjSum.putValueToMatrixAt(COL.C, 30, "=if(D29<>D30,\"da stimmt was nicht\",\"Summen passen\")");
         internalPrjSum.putValueToMatrixAt(COL.C, 31, "Eigene Stunden");
@@ -200,7 +200,7 @@ public class IntegrationTestMonthlyReport {
         prjMatrix.putValueToMatrixAt(COL.A, 15, "20.20");
 
         prjMatrix.putValueToMatrixAt(COL.B, 16, "Test3");
-        prjMatrix.putValueToMatrixAt(COL.B, 17, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 17, "Reise- und Naechtigungskosten");
         prjMatrix.putValueToMatrixAt(COL.B, 14, "Test1");
         prjMatrix.putValueToMatrixAt(COL.B, 15, "Test2");
 
@@ -242,7 +242,7 @@ public class IntegrationTestMonthlyReport {
 
         prjMatrix.putValueToMatrixAt(COL.B, 7, "Test1");
         prjMatrix.putValueToMatrixAt(COL.B, 8, "Test2");
-        prjMatrix.putValueToMatrixAt(COL.B, 9, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 9, "Reise- und Naechtigungskosten");
 
         prjMatrix.putValueToMatrixAt(COL.C, 6, "Stundensatz");
         prjMatrix.putValueToMatrixAt(COL.C, 7, "10");
@@ -278,7 +278,7 @@ public class IntegrationTestMonthlyReport {
 
         prjMatrix.putValueToMatrixAt(COL.B, 22, "Test1");
         prjMatrix.putValueToMatrixAt(COL.B, 23, "Test3");
-        prjMatrix.putValueToMatrixAt(COL.B, 24, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 24, "Reise- und Naechtigungskosten");
 
         prjMatrix.putValueToMatrixAt(COL.C, 21, "Stundensatz");
         prjMatrix.putValueToMatrixAt(COL.C, 22, "10");
@@ -314,7 +314,7 @@ public class IntegrationTestMonthlyReport {
 
         prjMatrix.putValueToMatrixAt(COL.B, 48, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C15,\" EUR (\",B15,\")\")");
         prjMatrix.putValueToMatrixAt(COL.B, 49, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C16,\" EUR (\",B16,\")\")");
-        prjMatrix.putValueToMatrixAt(COL.B, 50, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 50, "Reise- und Naechtigungskosten");
         prjMatrix.putValueToMatrixAt(COL.B, 46, "Beschreibung");
         prjMatrix.putValueToMatrixAt(COL.B, 47, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C14,\" EUR (\",B14,\")\")");
 
@@ -361,7 +361,7 @@ public class IntegrationTestMonthlyReport {
         prjMatrix.putValueToMatrixAt(COL.B, 39, "Beschreibung");
         prjMatrix.putValueToMatrixAt(COL.B, 40, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C7,\" EUR (\",B7,\")\")");
         prjMatrix.putValueToMatrixAt(COL.B, 41, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C8,\" EUR (\",B8,\")\")");
-        prjMatrix.putValueToMatrixAt(COL.B, 42, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 42, "Reise- und Naechtigungskosten");
 
         prjMatrix.putValueToMatrixAt(COL.C, 39, "Stundensatz");
         prjMatrix.putValueToMatrixAt(COL.C, 40, "=ROUND(D7,2)");
@@ -401,7 +401,7 @@ public class IntegrationTestMonthlyReport {
         prjMatrix.putValueToMatrixAt(COL.B, 54, "Beschreibung");
         prjMatrix.putValueToMatrixAt(COL.B, 55, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C22,\" EUR (\",B22,\")\")");
         prjMatrix.putValueToMatrixAt(COL.B, 56, "=CONCATENATE(\"Stunden Arbeitszeit zu einem Stundensatz von \",C23,\" EUR (\",B23,\")\")");
-        prjMatrix.putValueToMatrixAt(COL.B, 57, "Reise- und Nächtigungskosten");
+        prjMatrix.putValueToMatrixAt(COL.B, 57, "Reise- und Naechtigungskosten");
 
         prjMatrix.putValueToMatrixAt(COL.C, 54, "Stundensatz");
         prjMatrix.putValueToMatrixAt(COL.C, 55, "=ROUND(D22,2)");
