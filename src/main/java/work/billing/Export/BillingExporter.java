@@ -5,7 +5,7 @@ import work.billing.Cache.MonthlyReportCache;
 import work.billing.ProjectSpreadSheet.ProjectSpreadsheetToTrackTimeMapper;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
-import work.billing.Spreadsheets.Spreadsheet;
+import com.masterhilli.google.spreadsheet.api.connector.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 import work.billing.Timesheet.TrackedTimeAlreadyExistsException;
 import work.billing.Timesheet.TrackedTimeSummary;

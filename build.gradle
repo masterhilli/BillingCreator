@@ -15,18 +15,16 @@ jar {
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://maven.burtsev.net"
-    }
+
     jcenter()
 }
 
 dependencies {
+
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
+
+    compile fileTree(dir: 'lib', include: ['*.jar'])
     compile 'com.google.apis:google-api-services-drive:v3-rev6-1.20.0'
-    compile 'com.google.gdata.gdata-java-client:gdata-client-1.0:1.47.1'
-    compile 'com.google.gdata.gdata-java-client:gdata-spreadsheet-3.0:1.47.1'
     testCompile 'org.mockito:mockito-core:1.+'
     testCompile 'junit:junit:4.12'
 }

@@ -2,7 +2,7 @@ package work.billing.Export;
 
 import work.billing.Cache.BaseSpreadSheetMatrix;
 import work.billing.Spreadsheets.COL;
-import work.billing.Spreadsheets.Spreadsheet;
+import com.masterhilli.google.spreadsheet.api.connector.Spreadsheet;
 
 import java.util.AbstractMap;
 
