@@ -1,6 +1,6 @@
 package work.billing.ProjectSpreadSheet;
 
-import work.billing.Spreadsheets.Spreadsheet;
+import com.masterhilli.google.spreadsheet.api.connector.Spreadsheet;
 import work.billing.Timesheet.TrackedTime;
 
 import java.util.HashMap;

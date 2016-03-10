@@ -1,10 +1,9 @@
 package work;
 
-
-import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.File;
+import com.masterhilli.google.spreadsheet.api.connector.ListSpreadsheets;
 import work.billing.Export.BillingExporter;
-import work.billing.Files.ListSpreadsheets;
 import work.billing.Setting.FileSettingReader;
 import work.billing.Setting.FileSettings;
 
@@ -36,6 +35,14 @@ public class AppRunner {
         }
     }
 
+
+    private static String substituteCSVAtEndWithPdf(String csvUrl) {
+        if (csvUrl.endsWith("csv")) {
+            return csvUrl.substring(0, csvUrl.length()-3) + "pdf";
+        }
+        return null;
+    }
+
     private static void printHelpInformation() {
         System.out.println("Please provide 3 args: ");
         System.out.println("-create <worksheetname> <pathToSettingsFile>");
@@ -46,9 +53,9 @@ public class AppRunner {
     private static void ReceiveFileListAndExportToFile(String fileNameToExport) throws IOException {
         FileSettings fileSettings = FileSettingReader.ReadFileSettingsFromFile(fileNameToExport);
 
-        List<File> spreadSheetFileList = new ArrayList<>();
+        List<com.google.api.services.drive.model.File> spreadSheetFileList = new ArrayList<>();
         for (String searchParam : fileSettings.searchParams) {
-            FileList myFiles = ListSpreadsheets.retrieveAllFiles(searchParam);
+            FileList myFiles = ListSpreadsheets.retrieveAllFiles(searchParam, "");
             spreadSheetFileList.addAll(myFiles.getFiles());
         }
 
@@ -63,7 +70,7 @@ public class AppRunner {
             fileSettings.importFileId = new HashMap<String, String>();
         }
         fileSettings.importFileId.clear();
-        for (File file : spreadSheetFiles) {
+        for (com.google.api.services.drive.model.File file : spreadSheetFiles) {
             fileSettings.importFileId.put(file.getId(), file.getName());
         }
     }

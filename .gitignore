@@ -20,6 +20,6 @@ google_api_help
 hs_err_pid*
 
 # ignore authO2 file for google drive
-//client_secret.json
+#client_secret.json
 settings.json
 *.iml
